@@ -44,8 +44,8 @@ body {
 </style>
 <div class="error404">
 <div>
-    <div class="mb-3"><h1>The page could not be found.</h1></div>
-    <a href="/" class="action-btn">Return to first page</a>
+    <div class="mb-3"><h1>A página não pode ser encontrada.</h1></div>
+    <a href="/" class="action-btn">Retornar a página inicial</a>
     </div>
 </div>
 

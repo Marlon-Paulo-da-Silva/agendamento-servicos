@@ -224,7 +224,7 @@
                                 <ul>
                                     @foreach ($reservations['Mon'] as $mon)
                                         <li class="cd-schedule__event">
-                                            <a href="/admin/reservations/reservation/{{ $mon['id'] }}" data-start_e="{{ $mon['start_e'] }}" data-end_e="{{ $mon['start_e'] }}" data-start="{{ $mon['start'] }}" data-end="{{ $mon['start'] }}"
+                                            <a href="/admin/reservations/reservation/{{ $mon['id'] }}" data-start_e="{{ $mon['start_e'] }}" data-end_e="{{ $mon['end_e'] }}" data-start="{{ $mon['start'] }}" data-end="{{ $mon['end'] }}"
                                                 data-content="event-abs-circuit" data-event="event-1">
                                                 <span class="cd-schedule__name">{{ $mon['title'] }}</span>
                                             </a>

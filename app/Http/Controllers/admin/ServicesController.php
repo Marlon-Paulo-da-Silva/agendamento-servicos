@@ -7,22 +7,24 @@ use App\Models\Settings;
 use App\Helpers\Helpers;
 use App\Models\ServicesCategories;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ServicesController extends Controller
 {
+    private $site_id;
     public function __construct(Request $request)
     {
-        $this->site_id = Helpers::GetSiteId($request->site);
+        // $this->site_id = Helpers::GetSiteId($request->site);
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): View
     {
         $categories = ServicesCategories::where('user_id', '=', Auth::id())->get();
 
@@ -54,10 +56,12 @@ class ServicesController extends Controller
             $settings->currency_format = 1;
         }
 
+
         return view('admin.services.index', [
             'categories'=>$cats,
             'info' => $settings
         ]);
+
     }
 
     /**
@@ -65,10 +69,9 @@ class ServicesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): View
     {
         $categories = ServicesCategories::where('user_id', '=', Auth::id())->get();
-
         return view('admin.services.add', ['categories' => $categories]);
     }
 

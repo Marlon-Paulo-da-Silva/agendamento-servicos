@@ -108,7 +108,9 @@ Route::get('/admin/services-categories/confirm-delete/{id}', 'App\Http\Controlle
 Route::post('/admin/services-categories/delete', 'App\Http\Controllers\admin\ServicesCategoriesController@destroy')->middleware('auth');
 
 /* Services */
-Route::get('/admin/services', 'App\Http\Controllers\admin\ServicesController@index')->middleware('auth');
+// Route::get('/admin/services', [App\Http\Controllers\admin\DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('panel');
+// Route::get('/admin/services', 'App\Http\Controllers\admin\ServicesController@index')->middleware('auth');
+Route::get('/admin/services', [App\Http\Controllers\admin\ServicesController::class, 'index'])->middleware(['auth', 'verified']);
 Route::get('/admin/services/add', 'App\Http\Controllers\admin\ServicesController@create')->middleware('auth');
 Route::post('/admin/services/store', 'App\Http\Controllers\admin\ServicesController@store')->middleware('auth');
 Route::get('/admin/services/edit/{id}', 'App\Http\Controllers\admin\ServicesController@edit')->where('id', '[0-9]+')->middleware('auth');
