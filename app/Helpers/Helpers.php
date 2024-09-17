@@ -75,11 +75,18 @@ class Helpers
     }
     public static function GetSiteId($url)
     {
-        $user = Websites::select('user_id')->where('domain', '=', $url)->first();
-        if(!$user)
-            abort(404);
+        $site = Websites::select('users.id')
+            ->leftJoin('users', 'users.id', '=', 'websites.user_id')
+            ->where('websites.domain', '=', $url)
+            ->first();
 
-        return $user->user_id;
+        // Se nenhum resultado for encontrado, retorna um erro 404
+        if (!$site) {
+            abort(404, 'Site not found');
+        }
+
+        // Retorna o user_id encontrado
+        return $site->id;
     }
     public static function GetAdminEmail($url)
     {

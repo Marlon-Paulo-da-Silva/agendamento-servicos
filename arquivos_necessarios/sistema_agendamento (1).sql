@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 17/09/2024 às 04:35
+-- Tempo de geração: 17/09/2024 às 05:17
 -- Versão do servidor: 8.0.39
 -- Versão do PHP: 8.0.30
 
@@ -300,7 +300,7 @@ CREATE TABLE `profiles` (
 --
 
 INSERT INTO `profiles` (`id`, `user_id`, `profile_image`, `name`, `surname`, `occupation`, `privilege`, `area_code`, `phone`, `about`, `include_profile`, `created_at`, `updated_at`) VALUES
-(1, 5, NULL, 'Marlon Colaborador', 'Paulo da Silva', NULL, 1, NULL, NULL, NULL, 0, NULL, NULL);
+(1, 5, '98438ba6b29ea0d4b943adeef7c07e41c1bb0cf3.png', 'Marlon Colaborador', 'Paulo da Silva', NULL, 1, NULL, NULL, NULL, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -612,7 +612,7 @@ CREATE TABLE `websites` (
 --
 
 INSERT INTO `websites` (`id`, `user_id`, `title`, `domain`, `logo`, `facebook`, `twitter`, `instagram`, `color`, `address`, `created_at`, `updated_at`) VALUES
-(1, 5, NULL, '127.0.0.1', 'https://example.com/logo.png', 'https://facebook.com/meusite', 'https://twitter.com/meusite', 'https://instagram.com/meusite', 5, 'Rua Exemplo, 123, Cidade Exemplo', '2024-09-14 21:53:26', '2024-09-14 21:53:26');
+(1, 5, NULL, '127.0.0.1', '/images/profile_images/4f95371739208b3fcfe5ee48655cccc6b5651fa1.png', 'https://facebook.com/meusite', 'https://twitter.com/meusite', 'https://instagram.com/meusite', 5, 'Rua Exemplo, 123, Cidade Exemplo', '2024-09-14 21:53:26', '2024-09-14 21:53:26');
 
 -- --------------------------------------------------------
 

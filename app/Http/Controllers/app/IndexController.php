@@ -32,9 +32,12 @@ class IndexController extends Controller
     private $email;
 
     public function __construct(Request $request)
-    {   // TODO descomentar depois
+    {   
+        $request->site = parse_url($request->url(), PHP_URL_HOST);
+        // TODO descomentar depois
         // $this->template = Helpers::GetSiteTemplate($request->site);
         $this->template = "default";
+        $this->site_id = Helpers::GetSiteId($request->site);
         // $this->email = Helpers::GetAdminEmail($request->site);
     }
 
@@ -282,7 +285,7 @@ class IndexController extends Controller
         $employees = Profile::
             where(function($query) {
                 $query->where('id', '=', $this->site_id)
-                    ->orWhere('member', '=', $this->site_id);
+                    ->orWhere('user_id', '=', $this->site_id);
             })
             // ->where('include_profile', '=', 1)
             ->get();
@@ -306,9 +309,9 @@ class IndexController extends Controller
         $employees = Profile::
             where(function($query) {
                 $query->where('id', '=', $this->site_id)
-                    ->orWhere('member', '=', $this->site_id);
+                    ->orWhere('user_id', '=', $this->site_id);
             })
-            ->where('include_profile', '=', 1)
+            // ->where('include_profile', '=', 1)
             ->get();
 
         $website_data = $this->GetWebsiteData($request->getHost());
