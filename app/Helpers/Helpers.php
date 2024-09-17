@@ -48,22 +48,21 @@ class Helpers
 
         $site_id = Auth::id();
 
-
         return $site_id;
     }
     public static function GetAdmin()
     {
         $profile = Profile::where('id', '=', Auth::id())->first();
+        if ($profile) {
+            if ($profile->privilege == 2) {
+                $site_id = $profile->member;
+            } elseif ($profile->privilege == 1) {
+                $site_id = Auth::id();
+            }
 
-        if($profile->privilege == 2) {
-            $site_id = $profile->member;
+            return $site_id ?? null;
         }
-        if($profile->privilege == 1) {
-            $site_id = Auth::id();
-        }
-
-        // return $profile;
-        return $site_id;
+        return null; 
     }
     public static function GetUserIdSub($account)
     {

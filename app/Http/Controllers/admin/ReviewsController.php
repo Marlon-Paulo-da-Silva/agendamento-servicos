@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class ReviewsController extends Controller
 {
@@ -18,12 +19,13 @@ class ReviewsController extends Controller
      */
     public function index(Request $request)
     {
-        $reviews = Reviews::where('site', '=', Auth::id())->where('status', '=', 1)->get();
+        $reviews = Reviews::where('user_id', '=', Auth::id())->where('status', '=', 1)->get();
 
         foreach($reviews as $key=>$review)
         {
             $created = new \DateTime($review->created);
             $reviews[$key]->created = $created->format('d.m.Y H:i');
+            $reviews[$key]->review = Str::limit($review->review, 75);
         }
 
         return view('admin.reviews.index', [
@@ -35,7 +37,7 @@ class ReviewsController extends Controller
 
     public function bin(Request $request)
     {
-        $reviews = Reviews::where('site', '=', Auth::id())->where('status', '=', 3)->get();
+        $reviews = Reviews::where('user_id', '=', Auth::id())->where('status', '=', 3)->get();
 
         foreach($reviews as $key=>$review)
         {
@@ -52,7 +54,7 @@ class ReviewsController extends Controller
 
     public function approved(Request $request)
     {
-        $reviews = Reviews::where('site', '=', Auth::id())->where('status', '=', 2)->get();
+        $reviews = Reviews::where('user_id', '=', Auth::id())->where('status', '=', 2)->get();
 
         foreach($reviews as $key=>$review)
         {
@@ -70,17 +72,17 @@ class ReviewsController extends Controller
     private function GetStatuses()
     {
         $waiting = Reviews::select(DB::raw('count(*) as ct'))
-        ->where('site', '=', Auth::id())
+        ->where('user_id', '=', Auth::id())
         ->where('status', '=', 1)
         ->first();
 
         $bin = Reviews::select(DB::raw('count(*) as ct'))
-        ->where('site', '=', Auth::id())
+        ->where('user_id', '=', Auth::id())
         ->where('status', '=', 3)
         ->first();
 
         $approved = Reviews::select(DB::raw('count(*) as ct'))
-        ->where('site', '=', Auth::id())
+        ->where('user_id', '=', Auth::id())
         ->where('status', '=', 2)
         ->first();
 
@@ -96,7 +98,7 @@ class ReviewsController extends Controller
     public function changeStatus(Request $request)
     {
 
-        $review = Reviews::where('site', '=', Auth::id())->where('id', '=', $request->id)->firstorFail();
+        $review = Reviews::where('user_id', '=', Auth::id())->where('id', '=', $request->id)->firstorFail();
         $review->status = $request->status;
         $review->save();
 
@@ -143,7 +145,7 @@ class ReviewsController extends Controller
      */
     public function edit(Reviews $reviews, Request $request)
     {
-        $review = Reviews::where('site', '=', Auth::id())->findOrFail($request->id);
+        $review = Reviews::where('user_id', '=', Auth::id())->findOrFail($request->id);
 
         return view('admin.reviews.edit', ['review' => $review, 'id' => $request->id]);
     }
@@ -171,7 +173,7 @@ class ReviewsController extends Controller
         }
 
 
-        $review = Reviews::where('site', '=', Auth::id())->findOrFail($request->id);
+        $review = Reviews::where('user_id', '=', Auth::id())->findOrFail($request->id);
         $review->impression = $request->input('recension_impression');
         $review->name = $request->input('recension_name');
         $review->city = $request->input('recension_city');

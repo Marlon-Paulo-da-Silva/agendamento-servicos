@@ -18,6 +18,7 @@ class SmsMarketingSendStatusTable extends Migration
             $table->bigInteger('user_id');
             $table->bigInteger('campaign');
             $table->bigInteger('customer');
+            $table->boolean('sent');
         });
     }
 

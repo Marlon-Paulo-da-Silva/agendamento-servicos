@@ -29,13 +29,11 @@ class CustomersController extends Controller
         $letters = array();
         foreach($customers as $customer)
         {
-            $first_letter = mb_substr($customer->surname, 0, 1);
-
+            $first_letter = mb_substr($customer->name, 0, 1);
             if(is_numeric($first_letter))
             {
                 $first_letter = '#';
             }
-
             if(strlen($first_letter)) {
                 $letters[$first_letter][] = array(
                     'id' => $customer->id,

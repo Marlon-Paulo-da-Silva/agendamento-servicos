@@ -21,7 +21,7 @@ class WorkTimeController extends Controller
         $member = Profile::where(
             [
                 ['id', '=', $id],
-                ['member', '=', Auth::id()]
+                ['user_id', '=', Auth::id()]
             ]
         )->orWhere(
             [
@@ -56,7 +56,7 @@ class WorkTimeController extends Controller
             }
         }
 
-        return view('admin.schedule.work_time.index', ['member' => $member, 'work_times' => $work_times]);
+        return view('admin.schedule.work_time.index', ['user_id' => $member, 'work_times' => $work_times]);
     }
 
     public function generate($id)
@@ -64,7 +64,7 @@ class WorkTimeController extends Controller
         $member = Profile::where(
             [
                 ['id', '=', $id],
-                ['member', '=', Auth::id()]
+                ['user_id', '=', Auth::id()]
             ]
         )->orWhere(
             [
@@ -75,7 +75,7 @@ class WorkTimeController extends Controller
 
 
 
-        return view('admin.schedule.work_time.generate', ['member' => $member]);
+        return view('admin.schedule.work_time.generate', ['user_id' => $member]);
     }
 
     /**
@@ -101,7 +101,7 @@ class WorkTimeController extends Controller
         $member = Profile::where(
             [
                 ['id', '=', $id],
-                ['member', '=', Auth::id()]
+                ['user_id', '=', Auth::id()]
             ]
         )->orWhere(
             [
@@ -182,7 +182,7 @@ class WorkTimeController extends Controller
         $member = Profile::where(
             [
                 ['id', '=', $id],
-                ['member', '=', Auth::id()]
+                ['user_id', '=', Auth::id()]
             ]
         )->orWhere(
             [
@@ -341,7 +341,7 @@ class WorkTimeController extends Controller
         $member = Profile::where(
             [
                 ['id', '=', $user],
-                ['member', '=', Auth::id()]
+                ['user_id', '=', Auth::id()]
             ]
         )->orWhere(
             [
@@ -372,7 +372,7 @@ class WorkTimeController extends Controller
             $work_time->lunch_to = $lunch_to->format('H:i');
         }
 
-        return view('admin.schedule.work_time.edit', ['member' => $member, 'worktime' => $work_time]);
+        return view('admin.schedule.work_time.edit', ['user_id' => $member, 'worktime' => $work_time]);
     }
 
     /**
@@ -390,7 +390,7 @@ class WorkTimeController extends Controller
         $member = Profile::where(
             [
                 ['id', '=', $user],
-                ['member', '=', Auth::id()]
+                ['user_id', '=', Auth::id()]
             ]
         )->orWhere(
             [

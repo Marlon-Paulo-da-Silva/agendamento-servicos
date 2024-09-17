@@ -59,7 +59,7 @@ class WebsiteController extends Controller
      */
     public function edit(Websites $websites)
     {
-        $website = Websites::where('site', '=', Auth::id())->first();
+        $website = Websites::where('user_id', '=', Auth::id())->first();
 
         if(empty($website)) {
             $website = new \stdClass();
@@ -86,7 +86,7 @@ class WebsiteController extends Controller
      */
     public function update(Request $request, Websites $websites)
     {
-        $website = Websites::where('site', '=', Auth::id())->first();
+        $website = Websites::where('user_id', '=', Auth::id())->first();
 
         if(empty($website)) {
             $new = new Websites;
@@ -140,7 +140,7 @@ class WebsiteController extends Controller
                 $image->move($destinationPath, $image_name);
 
 
-                $website = Websites::where('site', '=', Auth::id())->first();
+                $website = Websites::where('user_id', '=', Auth::id())->first();
 
                 if(empty($website)) {
                     $new = new Websites;

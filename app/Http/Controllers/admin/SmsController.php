@@ -25,7 +25,7 @@ class SmsController extends Controller
      */
     public function index()
     {
-        $settings_exist = SmsSettings::where('site', '=', Auth::id())->first();
+        $settings_exist = SmsSettings::where('user_id', '=', Auth::id())->first();
 
         if(!$settings_exist)
         {
@@ -34,7 +34,7 @@ class SmsController extends Controller
             $sms_settings->save();
         }
 
-        $settings_exist = SmsSettings::where('site', '=', Auth::id())->first();
+        $settings_exist = SmsSettings::where('user_id', '=', Auth::id())->first();
 
         $endpoint = "https://api.twilio.com/2010-04-01/Accounts/$settings_exist->account_sid/Balance.json";
 
@@ -55,7 +55,7 @@ class SmsController extends Controller
             $php_response->currency = 'USD';
         }
 
-        $settings = Settings::where('site', '=', Auth::id())->first();
+        $settings = Settings::where('user_id', '=', Auth::id())->first();
 
         if(!$settings)
         {
@@ -72,7 +72,7 @@ class SmsController extends Controller
 
     public function settings(Request $request)
     {
-        $settings = SmsSettings::where('site', '=', Auth::id())->first();
+        $settings = SmsSettings::where('user_id', '=', Auth::id())->first();
 
         return view('admin.sms.settings', [
             'settings' => $settings,
@@ -82,7 +82,7 @@ class SmsController extends Controller
 
     public function updateSettings(Request $request)
     {
-        $settings = SmsSettings::where('site', '=', Auth::id())->first();
+        $settings = SmsSettings::where('user_id', '=', Auth::id())->first();
         $settings->account_sid = $request->input('account_sid');
         $settings->auth_token = $request->input('auth_token');
         $settings->number = $request->input('number');
@@ -94,7 +94,7 @@ class SmsController extends Controller
     public function enable(Request $request)
     {
 
-        $settings = SmsSettings::where('site', '=', Auth::id())->first();
+        $settings = SmsSettings::where('user_id', '=', Auth::id())->first();
 
         if($request->input('status'))
             $settings->enabled = 1;
@@ -110,7 +110,7 @@ class SmsController extends Controller
     public function notify(Request $request)
     {
 
-        $settings = SmsSettings::where('site', '=', Auth::id())->first();
+        $settings = SmsSettings::where('user_id', '=', Auth::id())->first();
 
         switch($request->input('notify'))
         {
@@ -138,7 +138,7 @@ class SmsController extends Controller
 
     public function sendMarketing()
     {
-        $settings_exist = SmsSettings::where('site', '=', 1)->first();
+        $settings_exist = SmsSettings::where('user_id', '=', 1)->first();
 
         if(!$settings_exist OR !$settings_exist->enabled)
         {
@@ -184,9 +184,9 @@ class SmsController extends Controller
 
     private function sendSms()
     {
-        $settings_exist = SmsSettings::where('site', '=', 1)->first();
+        $settings_exist = SmsSettings::where('user_id', '=', 1)->first();
 
-        $settings = Settings::where('site', '=', 1)->first();
+        $settings = Settings::where('user_id', '=', 1)->first();
 
         if(empty($settings)) {
             $settings = new \stdClass();

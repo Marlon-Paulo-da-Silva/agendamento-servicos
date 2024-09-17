@@ -30,7 +30,7 @@
                             <span class="material-icons">star</span>
                             @endfor
                         </div>
-                        <div class="email" title="{{$review->review}}">{{str_limit($review->review, 75)}}</div>
+                        <div class="email" title="{{$review->review}}">{{$review->review}}</div>
                         <div class="email time">{{$review->created}}</div>
                     </div>
                     <div class="col-2 col-xl-1 text-end">

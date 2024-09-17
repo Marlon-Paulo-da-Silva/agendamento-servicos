@@ -17,7 +17,7 @@ class TeamController extends Controller
      */
     public function index()
     {
-        $team = Profile::where('member', '=', Auth::id())->get();
+        $team = Profile::where('user_id', '=', Auth::id())->get();
 
         return view('admin.team.index', ['members' => $team]);
     }

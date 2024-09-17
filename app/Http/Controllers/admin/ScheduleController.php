@@ -16,7 +16,7 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        $team = Profile::where('member', '=', Auth::id())->orWhere('id', '=', Auth::id())->get();
+        $team = Profile::where('user_id', '=', Auth::id())->orWhere('id', '=', Auth::id())->get();
 
         return view('admin.schedule.index', ['members' => $team]);
     }
@@ -50,19 +50,12 @@ class ScheduleController extends Controller
      */
     public function show($id)
     {
-        $member = Profile::where(
-            [
-                ['id', '=', $id],
-                ['member', '=', Auth::id()]
-            ]
-        )->orWhere(
-            [
-                ['id', '=', $id],
-                ['id', '=', Auth::id()]
-            ]
-        )->firstOrFail();
-
-
+        $member = Profile::where([
+            ['id', '=', $id],
+            ['user_id', '=', Auth::id()],
+        ])->firstOrFail();
+    
+        // Passa a variável para a view corretamente.
         return view('admin.schedule.list', ['member' => $member]);
     }
 

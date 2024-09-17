@@ -18,8 +18,10 @@ class CreateReservationsTable extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id');
+            $table->bigInteger('user_res');
             $table->bigInteger('customer');
             $table->string('service', 255);
+            $table->decimal('price', 8, 2);
             $table->dateTime('start');
             $table->dateTime('end');
         });

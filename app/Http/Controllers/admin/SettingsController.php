@@ -61,7 +61,7 @@ class SettingsController extends Controller
      */
     public function edit(Settings $settings)
     {
-        $settings = Settings::where('site', '=', Auth::id())->first();
+        $settings = Settings::where('user_id', '=', Auth::id())->first();
 
         if(empty($settings)) {
             $settings = new \stdClass();
@@ -101,7 +101,7 @@ class SettingsController extends Controller
      */
     public function update(Request $request, Settings $settings)
     {
-        $settings = Settings::where('site', '=', Auth::id())->first();
+        $settings = Settings::where('user_id', '=', Auth::id())->first();
 
         $booking = $this->FormatBooking($request->input('booking'));
 

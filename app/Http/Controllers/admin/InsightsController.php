@@ -32,7 +32,7 @@ class InsightsController extends Controller
         $last_month->modify( '-1 month' );
 
         $last_month_reservations = Reservations::
-            where('site', '=', Auth::id())
+            where('user_id', '=', Auth::id())
             ->whereDate('start', '>=', $last_month->format('Y-m-d'))
             ->whereDate('start', '<=', $today->format('Y-m-d'))
             ->orderBy('start', 'asc')
@@ -90,7 +90,7 @@ class InsightsController extends Controller
         // Get profit this year
         $profit_this_year = Reservations::select(DB::raw('sum(price) as profit'))
             ->whereYear('start', '=', date('Y'))
-            ->where('site', '=', Auth::id())
+            ->where('user_id', '=', Auth::id())
             ->first();
 
         $datetime1 = new \DateTime('first day of january');
@@ -104,27 +104,27 @@ class InsightsController extends Controller
         // Incomes in the past years
         $year_minus_one = Reservations::select(DB::raw('sum(price) as profit'))
             ->whereYear('start', '=', date('Y')-1)
-            ->where('site', '=', Auth::id())
+            ->where('user_id', '=', Auth::id())
             ->first();
 
         $year_minus_two = Reservations::select(DB::raw('sum(price) as profit'))
             ->whereYear('start', '=', date('Y')-2)
-            ->where('site', '=', Auth::id())
+            ->where('user_id', '=', Auth::id())
             ->first();
 
         $year_minus_three = Reservations::select(DB::raw('sum(price) as profit'))
             ->whereYear('start', '=', date('Y')-3)
-            ->where('site', '=', Auth::id())
+            ->where('user_id', '=', Auth::id())
             ->first();
 
         $year_minus_four = Reservations::select(DB::raw('sum(price) as profit'))
             ->whereYear('start', '=', date('Y')-4)
-            ->where('site', '=', Auth::id())
+            ->where('user_id', '=', Auth::id())
             ->first();
 
         $year_minus_five = Reservations::select(DB::raw('sum(price) as profit'))
             ->whereYear('start', '=', date('Y')-5)
-            ->where('site', '=', Auth::id())
+            ->where('user_id', '=', Auth::id())
             ->first();
 
         $year_minus_profits = array(
@@ -183,27 +183,27 @@ class InsightsController extends Controller
         // Average dails incomes in the past years
         $year_minus_one_inc = Reservations::select(DB::raw('sum(price) as profit'))
             ->whereYear('start', '=', date('Y')-1)
-            ->where('site', '=', Auth::id())
+            ->where('user_id', '=', Auth::id())
             ->first();
 
         $year_minus_two_inc = Reservations::select(DB::raw('sum(price) as profit'))
             ->whereYear('start', '=', date('Y')-2)
-            ->where('site', '=', Auth::id())
+            ->where('user_id', '=', Auth::id())
             ->first();
 
         $year_minus_three_inc = Reservations::select(DB::raw('sum(price) as profit'))
             ->whereYear('start', '=', date('Y')-3)
-            ->where('site', '=', Auth::id())
+            ->where('user_id', '=', Auth::id())
             ->first();
 
         $year_minus_four_inc = Reservations::select(DB::raw('sum(price) as profit'))
             ->whereYear('start', '=', date('Y')-4)
-            ->where('site', '=', Auth::id())
+            ->where('user_id', '=', Auth::id())
             ->first();
 
         $year_minus_five_inc = Reservations::select(DB::raw('sum(price) as profit'))
             ->whereYear('start', '=', date('Y')-5)
-            ->where('site', '=', Auth::id())
+            ->where('user_id', '=', Auth::id())
             ->first();
 
         $year_minus_daily_inc = array(
@@ -259,7 +259,7 @@ class InsightsController extends Controller
         $last_week->modify( '-1 week' );
 
         $last_week_reservations = Reservations::
-            where('site', '=', Auth::id())
+            where('user_id', '=', Auth::id())
             ->whereDate('start', '>=', $last_week->format('Y-m-d'))
             ->whereDate('start', '<=', $today->format('Y-m-d'))
             ->orderBy('start', 'asc')
@@ -318,7 +318,7 @@ class InsightsController extends Controller
         // Salon Occupancy
         $occupied = $this->occupied();
 
-        $settings = Settings::where('site', '=', Auth::id())->first();
+        $settings = Settings::where('user_id', '=', Auth::id())->first();
 
         if(!$settings)
         {
@@ -352,7 +352,7 @@ class InsightsController extends Controller
         $datetime = \DateTime::createFromFormat('Y-m-d', $date);
         $dates_day = $datetime->format('D');
 
-        $working_day = WorkHours::where('site', '=', Auth::id())->first();
+        $working_day = WorkHours::where('user_id', '=', Auth::id())->first();
 
         if($working_day)
         {
@@ -363,14 +363,14 @@ class InsightsController extends Controller
         }
 
         // return 0 if there is a holiday
-        $holiday = Holidays::whereDate('holiday', $date)->where('site', '=', Auth::id())->first();
+        $holiday = Holidays::whereDate('holiday', $date)->where('user_id', '=', Auth::id())->first();
 
         if($holiday)
             return 0;
 
 
         // Get all employees and loop through array
-        $employees = Profile::select('id')->where('member', '=', Auth::id())->orWhere('id', '=', Auth::id())->get();
+        $employees = Profile::select('id')->where('user_id', '=', Auth::id())->orWhere('id', '=', Auth::id())->get();
 
         $work_time_minutes = 0;
         $busy_hours = 0;
@@ -379,8 +379,8 @@ class InsightsController extends Controller
         {
 
             // Skip the employee if it has vacations
-            $vacations = Vacations::select('user')
-                ->where('user', '=', $employee->id)
+            $vacations = Vacations::select('id')
+                ->where('user_res', '=', $employee->id)
                 ->whereDate('date_from', '<=', $date)
                 ->whereDate('date_to', '>=', $date)
                 ->first();
@@ -390,7 +390,7 @@ class InsightsController extends Controller
 
             // get employee work time
             $employee_work_time = WorkTime::
-            where('user', '=', $employee->id)
+            where('user_res', '=', $employee->id)
             ->whereDate('date_from', '<=', $date)
             ->whereDate('date_to', '>=', $date)
             ->first();
@@ -415,7 +415,7 @@ class InsightsController extends Controller
             }
 
             // calculate busy times for salon
-            $reservations = Reservations::where('user', '=', $employee->id)
+            $reservations = Reservations::where('user_res', '=', $employee->id)
                 ->whereDate('start', '=', $date)
                 ->get();
 

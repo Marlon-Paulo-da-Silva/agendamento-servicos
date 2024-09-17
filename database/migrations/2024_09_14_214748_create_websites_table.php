@@ -15,6 +15,7 @@ class CreateWebsitesTable extends Migration
         Schema::create('websites', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->string('title')->nullable();
             $table->string('domain')->unique();
             $table->string('logo')->nullable();
             $table->string('facebook')->nullable();

@@ -22,7 +22,7 @@ class VacationsController extends Controller
         $member = Profile::where(
             [
                 ['id', '=', $id],
-                ['member', '=', Auth::id()]
+                ['user_id', '=', Auth::id()]
             ]
         )->orWhere(
             [
@@ -32,7 +32,7 @@ class VacationsController extends Controller
         )->firstOrFail();
 
         $now = new \DateTime();
-        $work_times = Vacations::where('user', '=', $id)->first();
+        $work_times = Vacations::where('user_id', '=', $id)->first();
 
         if($work_times)
         {
@@ -48,7 +48,7 @@ class VacationsController extends Controller
             $work_times->date_from = '';
             $work_times->date_to = '';
         }
-        return view('admin.schedule.vacations.index', ['member' => $member, 'work_times' => $work_times]);
+        return view('admin.schedule.vacations.index', ['user_id' => $member, 'work_times' => $work_times]);
     }
 
     /**
@@ -74,7 +74,7 @@ class VacationsController extends Controller
         $member = Profile::where(
             [
                 ['id', '=', $id],
-                ['member', '=', Auth::id()]
+                ['user_id', '=', Auth::id()]
             ]
         )->orWhere(
             [
@@ -106,7 +106,7 @@ class VacationsController extends Controller
         }
 
 
-        $lunch = Vacations::where('user', '=', $id)->first();
+        $lunch = Vacations::where('user_id', '=', $id)->first();
 
         if($lunch)
             $lunch->delete();

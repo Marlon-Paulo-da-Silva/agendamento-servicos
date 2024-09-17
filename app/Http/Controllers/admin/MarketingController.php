@@ -23,13 +23,13 @@ class MarketingController extends Controller
     public function index()
     {
 
-        $campaigns_count = SmsMarketing::select(DB::raw('count(id) as ct'))->where('site', '=', Auth::id())->first();
+        $campaigns_count = SmsMarketing::select(DB::raw('count(id) as ct'))->where('user_id', '=', Auth::id())->first();
 
         $sending_sms = SmsMarketingSend::select(DB::raw('count(sms_marketing_send_status.id) as ct'))
         ->leftJoin('sms_marketing', 'sms_marketing.id', '=', 'sms_marketing_send_status.campaign')
         ->where(
             [
-                ['sms_marketing_send_status.site', '=', Auth::id()]
+                ['sms_marketing_send_status.user_id', '=', Auth::id()]
             ]
         )
         ->whereNotNull('sms_marketing.enabled')
@@ -39,13 +39,13 @@ class MarketingController extends Controller
         $sms_sent_count = SmsMarketingSend::select(DB::raw('count(id) as ct'))
         ->where(
             [
-                ['site', '=', Auth::id()]
+                ['user_id', '=', Auth::id()]
             ]
         )
         ->whereNotNull('sent')
         ->first();
 
-        $settings = SmsSettings::where('site', '=', Auth::id())->first();
+        $settings = SmsSettings::where('user_id', '=', Auth::id())->first();
 
         if(!$settings)
         {
@@ -67,7 +67,7 @@ class MarketingController extends Controller
     public function enableCampaign(Request $request)
     {
 
-        $settings = SmsMarketing::where('site', '=', Auth::id())->where('id', '=', $request->id)->first();
+        $settings = SmsMarketing::where('user_id', '=', Auth::id())->where('id', '=', $request->id)->first();
 
         if(!$settings)
             return response()->json(array('success' => false), 422);
@@ -142,7 +142,7 @@ class MarketingController extends Controller
         foreach($customers as $customer)
         {
             $data[] = array(
-                'site' => $site,
+                'user_id' => $site,
                 'campaign' => $sms_marketing->id,
                 'customer' => $customer->id
             );
@@ -166,7 +166,7 @@ class MarketingController extends Controller
 
     public function editItem(SmsMarketing $marketing, Request $request)
     {
-        $campaign = SmsMarketing::where('site', '=', Auth::id())->where('id', '=', $request->id)->firstOrFail();
+        $campaign = SmsMarketing::where('user_id', '=', Auth::id())->where('id', '=', $request->id)->firstOrFail();
 
         return view('admin.marketing.edit.edit', [
             'campaign' => $campaign,
@@ -182,7 +182,7 @@ class MarketingController extends Controller
      */
     public function edit(SmsMarketing $marketing)
     {
-        $campaigns = SmsMarketing::where('site', '=', Auth::id())->orderBy('id', 'desc')->get();
+        $campaigns = SmsMarketing::where('user_id', '=', Auth::id())->orderBy('id', 'desc')->get();
 
         foreach($campaigns as $key=>$campaign)
         {
@@ -195,7 +195,7 @@ class MarketingController extends Controller
 
     public function editList(SmsMarketing $marketing, Request $request)
     {
-        $campaign = $marketing::where('site', '=', Auth::id())->where('id', '=', $request->id)->firstOrFail();
+        $campaign = $marketing::where('user_id', '=', Auth::id())->where('id', '=', $request->id)->firstOrFail();
 
         return view('admin.marketing.edit_list', [
             'campaign' => $campaign
@@ -206,7 +206,7 @@ class MarketingController extends Controller
     {
         $campaign = SmsMarketing::where(
             [
-                ['site', '=', Auth::id()],
+                ['user_id', '=', Auth::id()],
                 ['id', '=', $id]
             ]
         )->firstOrFail();
@@ -218,7 +218,7 @@ class MarketingController extends Controller
     {
         $campaign = SmsMarketing::where(
             [
-                ['site', '=', Auth::id()],
+                ['user_id', '=', Auth::id()],
                 ['id', '=', $request->input('id')]
             ]
         )->firstOrFail();
@@ -248,7 +248,7 @@ class MarketingController extends Controller
                         ->withInput($request->all());
         }
 
-        $campaign = SmsMarketing::where('site', '=', Auth::id())->where('id', '=', $request->id)->firstOrFail();
+        $campaign = SmsMarketing::where('user_id', '=', Auth::id())->where('id', '=', $request->id)->firstOrFail();
         $campaign->title = $request->input('marketing_title');
         $campaign->message = $request->input('marketing_msg');
         $campaign->save();
