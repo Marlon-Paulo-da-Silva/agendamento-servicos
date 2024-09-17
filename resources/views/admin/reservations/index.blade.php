@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="/css/swiper-bundle.min.css">
     <link rel="stylesheet" href="/css/admin/calendar.css">
     <div class="pt-5 gray-page">
-        {{-- {{ dd($reservations) }} --}}
+        {{-- {{ dd($selected_user) }} --}}
 
 
         <div class="container">

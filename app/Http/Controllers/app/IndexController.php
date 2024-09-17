@@ -32,7 +32,7 @@ class IndexController extends Controller
     private $email;
 
     public function __construct(Request $request)
-    {   
+    {
         $request->site = parse_url($request->url(), PHP_URL_HOST);
         // TODO descomentar depois
         // $this->template = Helpers::GetSiteTemplate($request->site);
@@ -169,7 +169,7 @@ class IndexController extends Controller
 
     private function GetAccountData()
     {
-        $website_data = Websites::where('site', '=', $this->site_id)->first();
+        $website_data = Websites::where('user_id', '=', $this->site_id)->first();
 
         if(!$website_data)
         {
@@ -331,48 +331,48 @@ class IndexController extends Controller
 
         $website_data = $this->GetWebsiteData($request->getHost());
 
-        $reviews = Reviews::where('site', '=', $this->site_id)
+        $reviews = Reviews::where('user_id', '=', $this->site_id)
             ->where('status', '=', 2)
             ->get();
 
 
         $review_count = Reviews::select(DB::raw('count(*) as ct'))
-            ->where('site', '=', $this->site_id)
+            ->where('user_id', '=', $this->site_id)
             ->where('status', '=', 2)
             ->first();
 
 
         $avg_vote = Reviews::select(DB::raw('AVG(vote) as vote'))
-            ->where('site', '=', $this->site_id)
+            ->where('user_id', '=', $this->site_id)
             ->where('status', '=', 2)
             ->first();
 
         $one = Reviews::select(DB::raw('count(*) as ct'))
-        ->where('site', '=', $this->site_id)
+        ->where('user_id', '=', $this->site_id)
         ->where('status', '=', 2)
         ->where('vote', '=', 1)
         ->first();
 
         $two = Reviews::select(DB::raw('count(*) as ct'))
-        ->where('site', '=', $this->site_id)
+        ->where('user_id', '=', $this->site_id)
         ->where('status', '=', 2)
         ->where('vote', '=', 2)
         ->first();
 
         $three = Reviews::select(DB::raw('count(*) as ct'))
-        ->where('site', '=', $this->site_id)
+        ->where('user_id', '=', $this->site_id)
         ->where('status', '=', 2)
         ->where('vote', '=', 3)
         ->first();
 
         $four = Reviews::select(DB::raw('count(*) as ct'))
-        ->where('site', '=', $this->site_id)
+        ->where('user_id', '=', $this->site_id)
         ->where('status', '=', 2)
         ->where('vote', '=', 4)
         ->first();
 
         $five = Reviews::select(DB::raw('count(*) as ct'))
-        ->where('site', '=', $this->site_id)
+        ->where('user_id', '=', $this->site_id)
         ->where('status', '=', 2)
         ->where('vote', '=', 5)
         ->first();
@@ -466,7 +466,7 @@ class IndexController extends Controller
     public function workTime(Request $request)
     {
 
-        $work_time = WorkHours::where('site', '=', $this->site_id)->first();
+        $work_time = WorkHours::where('user_id', '=', $this->site_id)->first();
 
         $days = array(
             'mon',
@@ -536,7 +536,7 @@ class IndexController extends Controller
     public function services(Request $request)
     {
 
-        $categories = ServicesCategories::where('user', '=', $this->site_id)->get();
+        $categories = ServicesCategories::where('user_id', '=', $this->site_id)->get();
 
         $cats = array();
 
@@ -544,7 +544,7 @@ class IndexController extends Controller
         {
             $services = Services::where(
                 [
-                    ['user', '=', $this->site_id],
+                    ['user_id', '=', $this->site_id],
                     ['category', '=', $cat->id]
                 ]
             )->get();

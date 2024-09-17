@@ -1,3 +1,11 @@
 marlon.paulo.silva@outlook.com
 
 marlonmarlon
+
+c:\windows\system32\drivers\etc\hosts
+
+127.0.0.1       barbeariamarlon.site
+
+http://barbeariamarlon.site:8000/
+
+https://stackoverflow.com/questions/20164696/how-to-block-spam-and-spam-bots-for-good-with-htaccess

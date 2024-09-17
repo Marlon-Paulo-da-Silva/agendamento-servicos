@@ -59,7 +59,6 @@ class ReservationsController extends Controller
 
         $selected_user = Profile::where('user_id', $requested_user)->first();
 
-
         // list days for mobile calendar
         $days = $this->ListDays();
 
