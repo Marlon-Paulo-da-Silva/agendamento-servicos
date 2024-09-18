@@ -39,11 +39,15 @@ class ReservationsController extends Controller
      */
     public function index(Request $request): view
     {
+
+
         if(!$request->user)
         {
             $requested_user = Auth::id();
+            $selected_user = Profile::where('user_id', $requested_user)->first();
         } else {
             $requested_user = $request->user;
+            $selected_user = Profile::where('id', $requested_user)->first();
         }
 
         $request_day = NULL;
@@ -57,7 +61,7 @@ class ReservationsController extends Controller
             $request_day = $request->day;
         }
 
-        $selected_user = Profile::where('user_id', $requested_user)->first();
+
 
         // list days for mobile calendar
         $days = $this->ListDays();
@@ -220,7 +224,7 @@ class ReservationsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): view
     {
         $categories = ServicesCategories::where('user_id', '=', Auth::id())->get();
 
