@@ -58,8 +58,10 @@
             </div>   
         </div>
       </div>
-<script src="/js/app/menu.js"></script>
-<script src="/js/app/piskotki.js"></script>
-<script src="/js/admin/swiped-events.js"></script>
+<!-- <script src="/js/app/menu.js"></script> -->
+<!-- <script src="/js/app/piskotki.js"></script> -->
+<script src="/js/app/swiped-events.js"></script>
+<script src="/js/app/swiper8.min.js"></script>
+<script src="/js/app/reservations_add.js"></script>
     </body>
 </html>

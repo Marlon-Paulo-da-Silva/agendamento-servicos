@@ -305,6 +305,22 @@
     </div>
 
     <script>
+        $(document).ready(function() {
+            $('.service-title').on('click', function (e) {
+                e.preventDefault();
+
+                if($(this).parent().find('.rows').is(':visible'))
+                {
+                    $(this).parent().find('.rows').hide();
+                    $(this).find('.material-icons').text('expand_more');
+                } else {
+                    $(this).parent().find('.rows').show();
+                    $(this).find('.material-icons').text('expand_less');
+                }
+
+            })
+        });
+
         var languages = {
             term_reserved: "@lang('site.reservations_term_reserved')",
             price: "@lang('site.reservations_price')",
@@ -319,7 +335,9 @@
         };
 
         var time_format = {{$time_format}};
+
+        
     </script>
-    <script src="/js/admin/swiper8.min.js"></script>
-    <script src="/js/app/reservations_add.min.js"></script>
+    <script src="/js/app/swiper8.min.js"></script>
+    <script src="/js/app/reservations_add.js"></script>
 @endsection

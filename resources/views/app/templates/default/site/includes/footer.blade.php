@@ -31,3 +31,14 @@
 
         <div class="text-center py-5 mb-5 run">Powered By <a href="https://codeland.fun">codeland.fun</a> © {{date('Y')}}</div>
 
+<script>
+    var burgerBtn = document.getElementById('burgerBtn');
+    var mobile = document.getElementById('mobile-menu');
+
+    burgerBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    mobile.classList.toggle('active');
+    
+    }, false);
+
+</script>

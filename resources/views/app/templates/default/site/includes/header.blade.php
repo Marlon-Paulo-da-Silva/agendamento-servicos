@@ -91,7 +91,7 @@
           </ul>
           <ul class="d-block d-lg-none d-xl-none d-xxl-none">
             <li>
-                <a href="/booking" title="Book an appointment" class="reserve">Booking</a>
+                <a href="/booking" title="Book an appointment" class="reserve">Agendar</a>
             </li>
           </ul>
     </div>

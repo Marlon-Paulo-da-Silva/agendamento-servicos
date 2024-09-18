@@ -28,8 +28,10 @@ class ReservationsController extends Controller
 
     public function __construct(Request $request)
     {
+        $request->site = parse_url($request->url(), PHP_URL_HOST);
         $this->site_id = Helpers::GetSiteId($request->site);
         // $this->template = Helpers::GetSiteTemplate($request->site);
+        $this->template = "default";
     }
     /**
      * Display a listing of the resource.
@@ -39,7 +41,7 @@ class ReservationsController extends Controller
     public function index(Request $request)
     {
 
-        $categories = ServicesCategories::where('user', '=', $this->site_id)->get();
+        $categories = ServicesCategories::where('user_id', '=', $this->site_id)->get();
 
         $cats = array();
 
@@ -47,7 +49,7 @@ class ReservationsController extends Controller
         {
             $services = Services::where(
                 [
-                    ['user', '=', $this->site_id],
+                    ['user_id', '=', $this->site_id],
                     ['category', '=', $cat->id]
                 ]
             )->get();
@@ -71,7 +73,7 @@ class ReservationsController extends Controller
         $days = $this->ListDaysBySetting();
 
 
-        $employees = Profile::where('id', '=', $this->site_id)->orWhere('member', '=', $this->site_id)->get();
+        $employees = Profile::where('id', '=', $this->site_id)->orWhere('user_id', '=', $this->site_id)->get();
 
         $website_data = Websites::where('user_id', '=', $this->site_id)->first();
 
@@ -165,7 +167,7 @@ class ReservationsController extends Controller
         $days = $this->ListDaysBySetting();
 
 
-        $employees = Profile::where('id', '=', $this->site_id)->orWhere('member', '=', $this->site_id)->get();
+        $employees = Profile::where('id', '=', $this->site_id)->orWhere('user_id', '=', $this->site_id)->get();
 
         $website_data = Websites::where('user_id', '=', $this->site_id)->first();
 
@@ -223,7 +225,7 @@ class ReservationsController extends Controller
     {
 
 
-        $categories = ServicesCategories::where('user', '=', $this->site_id)->get();
+        $categories = ServicesCategories::where('user_id', '=', $this->site_id)->get();
 
         $cats = array();
 
@@ -231,7 +233,7 @@ class ReservationsController extends Controller
         {
             $services = Services::where(
                 [
-                    ['user', '=', $this->site_id],
+                    ['user_id', '=', $this->site_id],
                     ['category', '=', $cat->id]
                 ]
             )->get();
@@ -255,7 +257,7 @@ class ReservationsController extends Controller
         $days = $this->ListDaysBySetting();
 
 
-        $employees = Profile::where('id', '=', $this->site_id)->orWhere('member', '=', $this->site_id)->get();
+        $employees = Profile::where('id', '=', $this->site_id)->orWhere('user_id', '=', $this->site_id)->get();
 
         $website_data = Websites::where('user_id', '=', $this->site_id)->first();
 
@@ -320,7 +322,7 @@ class ReservationsController extends Controller
 
         $todays_date = new \DateTime('now');
         $today_date = $todays_date->format('Y-m-d H:i:s');
-        $dates = Reservations::where('user', '=', $this->site_id)->where('start', '>=', $today_date)->get();
+        $dates = Reservations::where('user_id', '=', $this->site_id)->where('start', '>=', $today_date)->get();
 
         // Get the non working dates
         $non_working_days = $this->GetNonWorkingDays($string);
@@ -362,7 +364,7 @@ class ReservationsController extends Controller
     }
     private function GetHolidaysDates() {
 
-        $holidays = Holidays::where('user', '=', $this->site_id)->get();
+        $holidays = Holidays::where('user_id', '=', $this->site_id)->get();
         $holidays_days = array();
 
         if(!empty($holidays))
@@ -498,7 +500,7 @@ class ReservationsController extends Controller
 
     private function CheckUserHasServiceRights($user, $service)
     {
-        return Services::where('user', '=', $user)->where('id', '=', $service)->first();
+        return Services::where('user_id', '=', $user)->where('id', '=', $service)->first();
     }
     private function GetEmployeesData($date, $service)
     {
@@ -517,7 +519,7 @@ class ReservationsController extends Controller
         }
 
         // Drop everything if there is a holiday
-        $holiday = Holidays::whereDate('holiday', $date)->where('user', '=', $this->site_id)->first();
+        $holiday = Holidays::whereDate('holiday', $date)->where('user_id', '=', $this->site_id)->first();
 
         if($holiday)
             return [];
@@ -561,9 +563,9 @@ class ReservationsController extends Controller
         }
 
         // Check which employees have vacations and exclude them from array
-        $vacations = Vacations::select('user')
+        $vacations = Vacations::select('user_id')
             ->distinct()
-            ->whereIn('user', $employees_of_service)
+            ->whereIn('user_id', $employees_of_service)
             ->whereDate('date_from', '<=', $date)
             ->whereDate('date_to', '>=', $date)
             ->get();
@@ -606,7 +608,7 @@ class ReservationsController extends Controller
 
 
             $employee_work_time = WorkTime::
-                where('user', '=', $employee)
+                where('user_id', '=', $employee)
                 ->whereDate('date_from', '<=', $date)
                 ->whereDate('date_to', '>=', $date)
                 ->first();
@@ -621,7 +623,7 @@ class ReservationsController extends Controller
 
 
             // Fill unavailables
-            $reservations = Reservations::where('user', '=', $employee)
+            $reservations = Reservations::where('user_id', '=', $employee)
                 ->whereDate('start', $date)
                 ->orderBy('end', 'desc')->get();
 
@@ -643,7 +645,7 @@ class ReservationsController extends Controller
 
             // Fill lunch times
             $lunch_time = WorkTime::
-            where('user', '=', $employee)
+            where('user_id', '=', $employee)
             ->whereDate('date_from', '<=', $date)
             ->whereDate('date_to', '>=', $date)
             ->first();
@@ -930,14 +932,14 @@ class ReservationsController extends Controller
                 $query->where('start', '>=', $startTime)
                     ->where('end', '<=', $endTime);
             });
-        })->where('user', '=', $user)->count();
+        })->where('user_id', '=', $user)->count();
 
         if($count)
             return true;
 
 
         // Check between vacation dates for user
-        $vacation_times_for_user = Vacations::where('user', '=', $user)->first();
+        $vacation_times_for_user = Vacations::where('user_id', '=', $user)->first();
 
         if($vacation_times_for_user)
         {
@@ -965,7 +967,7 @@ class ReservationsController extends Controller
                 $work_times_for_user = WorkTime::
                     whereDate('date_from', '<=', $startTime_t->format('Y-m-d'))
                     ->whereDate('date_to', '>=', $startTime_t->format('Y-m-d'))
-                    ->where('user', '=', $user)
+                    ->where('user_id', '=', $user)
                     ->first();
 
                 if(!$work_times_for_user)
@@ -1037,7 +1039,7 @@ class ReservationsController extends Controller
     {
         $has_service = MyServices::where(
             [
-                ['user', '=', $user],
+                ['user_id', '=', $user],
                 ['service', '=', $service]
             ]
         )->first();
@@ -1051,7 +1053,7 @@ class ReservationsController extends Controller
         $datetime = \DateTime::createFromFormat('Y-m-d H:i:s', $day);
         $dates_day = $datetime->format('Y-m-d');
 
-        $holiday = Holidays::whereDate('holiday', $dates_day)->where('user', '=', $this->site_id)->first();
+        $holiday = Holidays::whereDate('holiday', $dates_day)->where('user_id', '=', $this->site_id)->first();
 
         return $holiday ? true : false;
 
