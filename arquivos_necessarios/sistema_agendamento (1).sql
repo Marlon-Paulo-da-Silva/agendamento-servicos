@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 17/09/2024 às 05:17
+-- Tempo de geração: 19/09/2024 às 07:07
 -- Versão do servidor: 8.0.39
 -- Versão do PHP: 8.0.30
 
@@ -45,7 +45,8 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `user_id`, `name`, `surname`, `email`, `phone`, `area_code`, `user_res`, `created_at`, `updated_at`) VALUES
-(1, 5, 'João da Silva', NULL, 'joao@example.com', '11987654321', NULL, NULL, '2024-09-16 00:43:19', '2024-09-16 00:43:19');
+(1, 5, 'João da Silva', NULL, 'joao@example.com', '11987654321', NULL, NULL, '2024-09-16 00:43:19', '2024-09-16 00:43:19'),
+(2, 5, 'Cliente João', 'Paulo', 'marlon.pauloo@gmail.com', '18997039914', 55, 5, '2024-09-19 07:57:45', '2024-09-19 07:57:45');
 
 -- --------------------------------------------------------
 
@@ -300,7 +301,8 @@ CREATE TABLE `profiles` (
 --
 
 INSERT INTO `profiles` (`id`, `user_id`, `profile_image`, `name`, `surname`, `occupation`, `privilege`, `area_code`, `phone`, `about`, `include_profile`, `created_at`, `updated_at`) VALUES
-(1, 5, '98438ba6b29ea0d4b943adeef7c07e41c1bb0cf3.png', 'Marlon Colaborador', 'Paulo da Silva', NULL, 1, NULL, NULL, NULL, 0, NULL, NULL);
+(1, 5, '98438ba6b29ea0d4b943adeef7c07e41c1bb0cf3.png', 'Marlon Colaborador', 'Paulo da Silva', NULL, 1, NULL, NULL, NULL, 0, NULL, NULL),
+(2, 2, '98438ba6b29ea0d4b943adeef7c07e41c1bb0cf3.png', 'Marlon Colaborador', 'Paulo da Silva', NULL, 1, NULL, NULL, NULL, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -584,7 +586,7 @@ CREATE TABLE `vacations` (
 --
 
 INSERT INTO `vacations` (`id`, `user_id`, `user_res`, `date_from`, `date_to`, `created_at`, `updated_at`) VALUES
-(1, 5, 1, '2024-09-20', '2024-09-30', '2024-09-17 02:03:32', '2024-09-17 02:03:32');
+(1, 5, 2, '2024-09-17', '2024-09-30', '2024-09-17 02:03:32', '2024-09-17 02:03:32');
 
 -- --------------------------------------------------------
 
@@ -612,7 +614,7 @@ CREATE TABLE `websites` (
 --
 
 INSERT INTO `websites` (`id`, `user_id`, `title`, `domain`, `logo`, `facebook`, `twitter`, `instagram`, `color`, `address`, `created_at`, `updated_at`) VALUES
-(1, 5, NULL, '127.0.0.1', '/images/profile_images/4f95371739208b3fcfe5ee48655cccc6b5651fa1.png', 'https://facebook.com/meusite', 'https://twitter.com/meusite', 'https://instagram.com/meusite', 5, 'Rua Exemplo, 123, Cidade Exemplo', '2024-09-14 21:53:26', '2024-09-14 21:53:26');
+(1, 5, NULL, 'barbeariamarlon.site', '/images/profile_images/4f95371739208b3fcfe5ee48655cccc6b5651fa1.png', 'https://facebook.com/meusite', 'https://twitter.com/meusite', 'https://instagram.com/meusite', 5, 'Rua Exemplo, 123, Cidade Exemplo', '2024-09-14 21:53:26', '2024-09-14 21:53:26');
 
 -- --------------------------------------------------------
 
@@ -639,8 +641,8 @@ CREATE TABLE `work_hours` (
 --
 
 INSERT INTO `work_hours` (`id`, `user_id`, `mon_closed`, `tue_closed`, `wed_closed`, `thu_closed`, `fri_closed`, `sat_closed`, `sun_closed`, `created_at`, `updated_at`) VALUES
-(1, 2, 0, 0, 0, 0, 0, 1, 1, '2024-09-14 22:13:12', '2024-09-14 22:13:12'),
-(2, 3, 0, 0, 0, 0, 0, 1, 1, '2024-09-14 22:13:12', '2024-09-14 22:13:12');
+(1, 5, 0, 0, 0, 0, 0, 1, 1, '2024-09-14 22:13:12', '2024-09-14 22:13:12'),
+(2, 5, 0, 0, 0, 0, 0, 1, 1, '2024-09-14 22:13:12', '2024-09-14 22:13:12');
 
 -- --------------------------------------------------------
 
@@ -667,7 +669,7 @@ CREATE TABLE `work_times` (
 --
 
 INSERT INTO `work_times` (`id`, `user_id`, `user_res`, `date_from`, `date_to`, `time_from`, `time_to`, `lunch_from`, `lunch_to`, `created_at`, `updated_at`) VALUES
-(1, 5, 1, '2024-09-18', '2024-09-18', '09:00:00', '17:00:00', '12:00:00', '13:00:00', '2024-09-17 02:21:45', '2024-09-17 02:21:45');
+(1, 5, 2, '2024-09-19', '2024-09-19', '09:00:00', '17:00:00', '12:00:00', '13:00:00', '2024-09-17 02:21:45', '2024-09-17 02:21:45');
 
 --
 -- Índices para tabelas despejadas
@@ -680,6 +682,7 @@ ALTER TABLE `customers`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `customers_email_unique` (`email`),
   ADD KEY `customers_user_id_foreign` (`user_id`);
+ALTER TABLE `customers` ADD FULLTEXT KEY `name` (`name`,`surname`);
 
 --
 -- Índices de tabela `failed_jobs`
@@ -856,7 +859,7 @@ ALTER TABLE `work_times`
 -- AUTO_INCREMENT de tabela `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `failed_jobs`
@@ -916,7 +919,7 @@ ALTER TABLE `photos`
 -- AUTO_INCREMENT de tabela `profiles`
 --
 ALTER TABLE `profiles`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `renewals`
