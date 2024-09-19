@@ -32,7 +32,7 @@
                   <div class="col-12 text-end">
                   <a href="#" class="d-inline" id="closeBtn">
                     <span class="material-icons">close</span>
-</a>
+                  </a>
                   </div>
                 </div>
             </div>

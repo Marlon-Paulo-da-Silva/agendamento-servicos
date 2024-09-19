@@ -24,8 +24,12 @@ class CreateCustomersTable extends Migration
             $table->unsignedBigInteger('user_res')->nullable();
             $table->timestamps();
 
+            // Relacionamentos
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('user_res')->references('id')->on('users')->onDelete('cascade'); // Relaciona "user_res" com a tabela "users"
+            $table->foreign('user_res')->references('id')->on('users')->onDelete('cascade');
+
+            // Adicionando o índice FULLTEXT
+            $table->fullText(['name', 'surname']);
         });
     }
 

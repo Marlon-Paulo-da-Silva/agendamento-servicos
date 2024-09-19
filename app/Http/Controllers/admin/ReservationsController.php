@@ -366,7 +366,6 @@ class ReservationsController extends Controller
 
         $working_day = WorkHours::where('user_id', '=', Auth::id())->first();
 
-
         if($working_day)
         {
             $closed_column = strtolower($dates_day) . '_closed';
@@ -385,11 +384,13 @@ class ReservationsController extends Controller
         // Set the main array where we will store employees
         $employees = array();
 
+
         // Check which employees are offering the service
         $get_employees_of_service = MyServices::select('my_services.user_res')
             ->leftJoin('users', 'my_services.user_id', '=', 'user_id')
-            ->where('users.deleted_at', null)
             ->where('my_services.service_id', '=', $service)->get();
+        
+        
 
 
         if(!$get_employees_of_service)
@@ -402,36 +403,34 @@ class ReservationsController extends Controller
             $employees_of_service[] = $employee->user_res;
         }
 
-
+        
 
         // Check if employees work on selected date and store them in array
-        $working = WorkTime::select('work_times.employee_id')
-            ->distinct('work_times.employee_id')
-            ->leftJoin('users', 'work_times.employee_id', '=', 'users.id')
-            ->where('users.deleted_at', null)
-            ->whereIn('work_times.employee_id', $employees_of_service)
+        $working = WorkTime::select('work_times.user_res')
+            ->distinct('work_times.user_res')
+            ->leftJoin('users', 'work_times.user_res', '=', 'users.id')
+            ->whereIn('work_times.user_res', $employees_of_service)
             ->whereDate('work_times.date_from', '<=', $date)
             ->whereDate('work_times.date_to', '>=', $date)
             ->get();
 
-
+        
 
 
         foreach($working as $work)
         {
-            $employees[] = $work->employee_id;
+            $employees[] = $work->user_res;
         }
 
 
 
         // Check which employees have vacations and exclude them from array
-        $vacations = Vacations::select('employee_id')
+        $vacations = Vacations::select('user_res')
             ->distinct()
-            ->whereIn('employee_id', $employees_of_service)
+            ->whereIn('user_res', $employees)
             ->whereDate('date_from', '<=', $date)
             ->whereDate('date_to', '>=', $date)
             ->get();
-
 
 
         foreach($vacations as $vacation)
@@ -473,7 +472,7 @@ class ReservationsController extends Controller
 
             // HERE CHECK EMPLOYEE WORK TIME
             $employee_work_time = WorkTime::
-                where('employee_id', '=', $employee)
+                where('user_res', '=', $employee)
                 ->whereDate('date_from', '<=', $date)
                 ->whereDate('date_to', '>=', $date)
                 ->first();
@@ -513,7 +512,7 @@ class ReservationsController extends Controller
 
             // Fill lunch times
             $lunch_time = WorkTime::
-            where('employee_id', '=', $employee)
+            where('user_res', '=', $employee)
             ->whereDate('date_from', '<=', $date)
             ->whereDate('date_to', '>=', $date)
             ->first();
@@ -562,11 +561,6 @@ class ReservationsController extends Controller
             'service' => 'required|integer|exists:services,id'
         ]);
 
-        // echo "<pre>";
-        // print_r(response()->json($validator->messages()));
-        // echo "</pre>";
-        // exit();
-
 
         if ($validator->fails()) {
             return response()->json($validator->messages());
@@ -579,7 +573,6 @@ class ReservationsController extends Controller
 
         // Get employees data that work on current day and are managing the service. Returns array of employees data and employees work times
         $employees_data = $this->GetEmployeesData($request->date, $request->service);
-
 
         if(!$employees_data)
             $employees_data = array(
@@ -1030,7 +1023,7 @@ class ReservationsController extends Controller
 
 
         // Check between vacation dates for user
-        $vacation_times_for_user = Vacations::where('employee_id', '=', $user)->first();
+        $vacation_times_for_user = Vacations::where('user_res', '=', $user)->first();
 
         if($vacation_times_for_user)
         {
@@ -1059,7 +1052,7 @@ class ReservationsController extends Controller
                 $work_times_for_user = WorkTime::
                     whereDate('date_from', '<=', $startTime_t->format('Y-m-d'))
                     ->whereDate('date_to', '>=', $startTime_t->format('Y-m-d'))
-                    ->where('employee_id', '=', $user)
+                    ->where('user_res', '=', $user)
                     ->first();
 
                 if(!$work_times_for_user)
