@@ -272,8 +272,9 @@ CREATE TABLE `photos` (
 --
 
 INSERT INTO `photos` (`id`, `user_id`, `photo_1`, `photo_2`, `photo_3`, `photo_4`, `photo_5`, `photo_6`, `photo_7`, `photo_8`, `photo_9`, `photo_10`, `created_at`, `updated_at`) VALUES
-(3, 2, 'https://example.com/foto1.jpg', 'https://example.com/foto2.jpg', 'https://example.com/foto3.jpg', 'https://example.com/foto4.jpg', 'https://example.com/foto5.jpg', 'https://example.com/foto6.jpg', 'https://example.com/foto7.jpg', 'https://example.com/foto8.jpg', 'https://example.com/foto9.jpg', 'https://example.com/foto10.jpg', '2024-09-14 07:08:58', '2024-09-14 07:08:58'),
-(4, 3, 'https://example.com/imagem1.png', 'https://example.com/imagem2.png', 'https://example.com/imagem3.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-09-14 07:08:58', '2024-09-14 07:08:58');
+(3, 2, 'https://example.com/foto1.jpg', 'https://example.com/foto2.jpg', 'https://example.com/foto3.jpg', 'https://example.com/foto4.jpg', 'https://example.com/foto5.jpg', 'https://example.com/foto6.jpg', 'https://example.com/foto7.jpg', 'https://example.com/foto8.jpg', 'https://example.com/foto9.jpg', 'https://example.com/foto10.jpg', '2024-09-14 10:08:58', '2024-09-14 10:08:58'),
+(4, 3, 'https://example.com/imagem1.png', 'https://example.com/imagem2.png', 'https://example.com/imagem3.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-09-14 10:08:58', '2024-09-14 10:08:58'),
+(5, 5, '2a15d9735e054004c31a4eb6d459700cfb1cb86f.jpeg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
