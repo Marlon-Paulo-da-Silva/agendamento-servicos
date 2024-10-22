@@ -52,7 +52,7 @@ class Helpers
     }
     public static function GetAdmin()
     {
-        $profile = Profile::where('id', '=', Auth::id())->first();
+        $profile = Profile::where('user_id', '=', Auth::id())->first();
         if ($profile) {
             if ($profile->privilege == 2) {
                 $site_id = $profile->member;

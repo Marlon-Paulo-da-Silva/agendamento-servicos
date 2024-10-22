@@ -148,7 +148,7 @@ class PhotosController extends Controller
                 'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:3048',
             ]);
 
-            $name = 'photo';
+            $name = 'photo';            
 
             if ($request->hasFile($name)) {
 
