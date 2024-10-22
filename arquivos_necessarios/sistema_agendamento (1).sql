@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 19/09/2024 às 07:07
--- Versão do servidor: 8.0.39
+-- Tempo de geração: 22/10/2024 às 04:10
+-- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -28,14 +28,14 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `customers` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `surname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `area_code` int DEFAULT NULL,
-  `user_res` bigint DEFAULT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `surname` varchar(255) DEFAULT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `area_code` int(11) DEFAULT NULL,
+  `user_res` bigint(20) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -45,8 +45,9 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `user_id`, `name`, `surname`, `email`, `phone`, `area_code`, `user_res`, `created_at`, `updated_at`) VALUES
-(1, 5, 'João da Silva', NULL, 'joao@example.com', '11987654321', NULL, NULL, '2024-09-16 00:43:19', '2024-09-16 00:43:19'),
-(2, 5, 'Cliente João', 'Paulo', 'marlon.pauloo@gmail.com', '18997039914', 55, 5, '2024-09-19 07:57:45', '2024-09-19 07:57:45');
+(1, 5, 'João da Silva', NULL, 'joao@example.com', '11987654321', NULL, NULL, '2024-09-16 03:43:19', '2024-09-16 03:43:19'),
+(2, 5, 'Cliente João', 'Paulo', 'marlon.pauloo@gmail.com', '18997039914', 55, 5, '2024-09-19 10:57:45', '2024-09-19 10:57:45'),
+(4, 5, 'Marlon cliente', 'Paulo', 'marlon.paulo@email.com', '18997039914', 21, 5, '2024-10-22 05:01:49', '2024-10-22 05:01:49');
 
 -- --------------------------------------------------------
 
@@ -55,13 +56,13 @@ INSERT INTO `customers` (`id`, `user_id`, `name`, `surname`, `email`, `phone`, `
 --
 
 CREATE TABLE `failed_jobs` (
-  `id` bigint UNSIGNED NOT NULL,
-  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `uuid` varchar(255) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -71,9 +72,9 @@ CREATE TABLE `failed_jobs` (
 --
 
 CREATE TABLE `holidays` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint NOT NULL,
-  `user` bigint NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `user` bigint(20) NOT NULL,
   `holiday` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -93,9 +94,9 @@ INSERT INTO `holidays` (`id`, `user_id`, `user`, `holiday`) VALUES
 --
 
 CREATE TABLE `migrations` (
-  `id` int UNSIGNED NOT NULL,
-  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int NOT NULL
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) NOT NULL,
+  `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -140,10 +141,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `my_services` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint UNSIGNED NOT NULL,
-  `user_res` bigint UNSIGNED NOT NULL,
-  `service_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `user_res` bigint(20) UNSIGNED NOT NULL,
+  `service_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -153,9 +154,9 @@ CREATE TABLE `my_services` (
 --
 
 INSERT INTO `my_services` (`id`, `user_id`, `user_res`, `service_id`, `created_at`, `updated_at`) VALUES
-(7, 5, 2, 6, '2024-09-16 02:38:20', '2024-09-16 02:38:20'),
-(8, 5, 2, 7, '2024-09-16 02:38:20', '2024-09-16 02:38:20'),
-(9, 5, 2, 8, '2024-09-16 02:38:20', '2024-09-16 02:38:20');
+(7, 5, 2, 6, '2024-09-16 05:38:20', '2024-09-16 05:38:20'),
+(8, 5, 5, 7, '2024-09-16 05:38:20', '2024-09-16 05:38:20'),
+(9, 5, 2, 8, '2024-09-16 05:38:20', '2024-09-16 05:38:20');
 
 -- --------------------------------------------------------
 
@@ -164,11 +165,11 @@ INSERT INTO `my_services` (`id`, `user_id`, `user_res`, `service_id`, `created_a
 --
 
 CREATE TABLE `notifications` (
-  `id` bigint UNSIGNED NOT NULL,
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `msg` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `msg` text NOT NULL,
   `created` datetime NOT NULL,
-  `important` smallint NOT NULL
+  `important` smallint(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -186,9 +187,9 @@ INSERT INTO `notifications` (`id`, `title`, `msg`, `created`, `important`) VALUE
 --
 
 CREATE TABLE `notifications_status` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user` bigint NOT NULL,
-  `notification` bigint NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user` bigint(20) NOT NULL,
+  `notification` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -198,8 +199,8 @@ CREATE TABLE `notifications_status` (
 --
 
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -210,12 +211,12 @@ CREATE TABLE `password_reset_tokens` (
 --
 
 CREATE TABLE `personal_access_tokens` (
-  `id` bigint UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tokenable_id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tokenable_type` varchar(255) NOT NULL,
+  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `abilities` text DEFAULT NULL,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -229,8 +230,8 @@ CREATE TABLE `personal_access_tokens` (
 --
 
 CREATE TABLE `phone_area_codes` (
-  `id` bigint UNSIGNED NOT NULL,
-  `area_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `area_code` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -240,8 +241,8 @@ CREATE TABLE `phone_area_codes` (
 --
 
 INSERT INTO `phone_area_codes` (`id`, `area_code`, `created_at`, `updated_at`) VALUES
-(1, '11', '2024-09-14 21:53:26', '2024-09-14 21:53:26'),
-(2, '21', '2024-09-14 21:53:26', '2024-09-14 21:53:26');
+(1, '11', '2024-09-15 00:53:26', '2024-09-15 00:53:26'),
+(2, '21', '2024-09-15 00:53:26', '2024-09-15 00:53:26');
 
 -- --------------------------------------------------------
 
@@ -250,18 +251,18 @@ INSERT INTO `phone_area_codes` (`id`, `area_code`, `created_at`, `updated_at`) V
 --
 
 CREATE TABLE `photos` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint UNSIGNED NOT NULL,
-  `photo_1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `photo_2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `photo_3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `photo_4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `photo_5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `photo_6` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `photo_7` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `photo_8` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `photo_9` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `photo_10` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `photo_1` varchar(255) DEFAULT NULL,
+  `photo_2` varchar(255) DEFAULT NULL,
+  `photo_3` varchar(255) DEFAULT NULL,
+  `photo_4` varchar(255) DEFAULT NULL,
+  `photo_5` varchar(255) DEFAULT NULL,
+  `photo_6` varchar(255) DEFAULT NULL,
+  `photo_7` varchar(255) DEFAULT NULL,
+  `photo_8` varchar(255) DEFAULT NULL,
+  `photo_9` varchar(255) DEFAULT NULL,
+  `photo_10` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -271,8 +272,8 @@ CREATE TABLE `photos` (
 --
 
 INSERT INTO `photos` (`id`, `user_id`, `photo_1`, `photo_2`, `photo_3`, `photo_4`, `photo_5`, `photo_6`, `photo_7`, `photo_8`, `photo_9`, `photo_10`, `created_at`, `updated_at`) VALUES
-(3, 2, 'https://example.com/foto1.jpg', 'https://example.com/foto2.jpg', 'https://example.com/foto3.jpg', 'https://example.com/foto4.jpg', 'https://example.com/foto5.jpg', 'https://example.com/foto6.jpg', 'https://example.com/foto7.jpg', 'https://example.com/foto8.jpg', 'https://example.com/foto9.jpg', 'https://example.com/foto10.jpg', '2024-09-14 04:08:58', '2024-09-14 04:08:58'),
-(4, 3, 'https://example.com/imagem1.png', 'https://example.com/imagem2.png', 'https://example.com/imagem3.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-09-14 04:08:58', '2024-09-14 04:08:58');
+(3, 2, 'https://example.com/foto1.jpg', 'https://example.com/foto2.jpg', 'https://example.com/foto3.jpg', 'https://example.com/foto4.jpg', 'https://example.com/foto5.jpg', 'https://example.com/foto6.jpg', 'https://example.com/foto7.jpg', 'https://example.com/foto8.jpg', 'https://example.com/foto9.jpg', 'https://example.com/foto10.jpg', '2024-09-14 07:08:58', '2024-09-14 07:08:58'),
+(4, 3, 'https://example.com/imagem1.png', 'https://example.com/imagem2.png', 'https://example.com/imagem3.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-09-14 07:08:58', '2024-09-14 07:08:58');
 
 -- --------------------------------------------------------
 
@@ -281,17 +282,17 @@ INSERT INTO `photos` (`id`, `user_id`, `photo_1`, `photo_2`, `photo_3`, `photo_4
 --
 
 CREATE TABLE `profiles` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint UNSIGNED NOT NULL,
-  `profile_image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `surname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `occupation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `privilege` int NOT NULL,
-  `area_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `about` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `include_profile` tinyint(1) NOT NULL DEFAULT '0',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `profile_image` varchar(255) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `surname` varchar(255) DEFAULT NULL,
+  `occupation` varchar(255) DEFAULT NULL,
+  `privilege` int(11) NOT NULL,
+  `area_code` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `about` text DEFAULT NULL,
+  `include_profile` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -311,8 +312,8 @@ INSERT INTO `profiles` (`id`, `user_id`, `profile_image`, `name`, `surname`, `oc
 --
 
 CREATE TABLE `renewals` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user` bigint NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user` bigint(20) NOT NULL,
   `notified` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -323,11 +324,11 @@ CREATE TABLE `renewals` (
 --
 
 CREATE TABLE `reservations` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint NOT NULL,
-  `user_res` int NOT NULL,
-  `customer` bigint NOT NULL,
-  `service` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `user_res` int(11) NOT NULL,
+  `customer` bigint(20) NOT NULL,
+  `service` varchar(255) NOT NULL,
   `price` decimal(8,2) NOT NULL,
   `start` datetime NOT NULL,
   `end` datetime NOT NULL
@@ -340,7 +341,9 @@ CREATE TABLE `reservations` (
 INSERT INTO `reservations` (`id`, `user_id`, `user_res`, `customer`, `service`, `price`, `start`, `end`) VALUES
 (1, 1, 0, 1, 'Corte de cabelo', 0.00, '2024-09-15 09:00:00', '2024-09-15 10:00:00'),
 (2, 2, 0, 2, 'Massagem', 0.00, '2024-09-16 11:00:00', '2024-09-16 12:00:00'),
-(3, 5, 5, 2, 'Massagem', 0.00, '2024-09-16 11:00:00', '2024-09-16 13:00:00');
+(3, 5, 5, 2, 'Massagem', 0.00, '2024-09-16 11:00:00', '2024-09-16 13:00:00'),
+(4, 5, 5, 4, 'Hidratação Capilar', 25.00, '2024-10-23 09:30:00', '2024-10-23 10:14:59'),
+(5, 5, 5, 4, 'Hidratação Capilar', 25.00, '2024-10-23 10:45:00', '2024-10-23 11:29:59');
 
 -- --------------------------------------------------------
 
@@ -349,12 +352,12 @@ INSERT INTO `reservations` (`id`, `user_id`, `user_res`, `customer`, `service`, 
 --
 
 CREATE TABLE `reviews` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `review` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `vote` int NOT NULL,
-  `status` tinyint NOT NULL DEFAULT '0',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `review` text NOT NULL,
+  `vote` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -364,7 +367,7 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`id`, `user_id`, `name`, `review`, `vote`, `status`, `created_at`, `updated_at`) VALUES
-(1, 5, 'John Doe', 'Great product! I love it.', 5, 2, '2024-09-17 01:17:36', '2024-09-17 01:17:36');
+(1, 5, 'John Doe', 'Great product! I love it.', 5, 2, '2024-09-17 04:17:36', '2024-09-17 04:17:36');
 
 -- --------------------------------------------------------
 
@@ -373,12 +376,12 @@ INSERT INTO `reviews` (`id`, `user_id`, `name`, `review`, `vote`, `status`, `cre
 --
 
 CREATE TABLE `services` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint UNSIGNED NOT NULL,
-  `category` bigint UNSIGNED NOT NULL,
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `category` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
   `price` decimal(8,2) DEFAULT NULL,
-  `duration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `duration` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -388,8 +391,8 @@ CREATE TABLE `services` (
 --
 
 INSERT INTO `services` (`id`, `user_id`, `category`, `title`, `price`, `duration`, `created_at`, `updated_at`) VALUES
-(1, 2, 1, 'Corte Simples', NULL, '00:30', '2024-09-14 21:53:26', '2024-09-14 21:53:26'),
-(2, 2, 2, 'Manicure Completa', NULL, '01:00', '2024-09-14 21:53:26', '2024-09-14 21:53:26'),
+(1, 2, 1, 'Corte Simples', NULL, '00:30', '2024-09-15 00:53:26', '2024-09-15 00:53:26'),
+(2, 2, 2, 'Manicure Completa', NULL, '01:00', '2024-09-15 00:53:26', '2024-09-15 00:53:26'),
 (3, 5, 1, 'Corte Masculino', 20.00, '00:30', NULL, NULL),
 (4, 5, 1, 'Corte Feminino', 30.00, '01:00', NULL, NULL),
 (5, 5, 2, 'Barba Completa', 15.00, '00:20', NULL, NULL),
@@ -404,9 +407,9 @@ INSERT INTO `services` (`id`, `user_id`, `category`, `title`, `price`, `duration
 --
 
 CREATE TABLE `services_categories` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint UNSIGNED NOT NULL,
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -416,8 +419,8 @@ CREATE TABLE `services_categories` (
 --
 
 INSERT INTO `services_categories` (`id`, `user_id`, `title`, `created_at`, `updated_at`) VALUES
-(1, 2, 'Corte de Cabelo', '2024-09-14 21:53:26', '2024-09-14 21:53:26'),
-(2, 2, 'Manicure', '2024-09-14 21:53:26', '2024-09-14 21:53:26'),
+(1, 2, 'Corte de Cabelo', '2024-09-15 00:53:26', '2024-09-15 00:53:26'),
+(2, 2, 'Manicure', '2024-09-15 00:53:26', '2024-09-15 00:53:26'),
 (3, 5, 'Corte de Cabelo', NULL, NULL),
 (4, 5, 'Barba', NULL, NULL),
 (5, 5, 'Tratamentos Capilares', NULL, NULL),
@@ -432,18 +435,18 @@ INSERT INTO `services_categories` (`id`, `user_id`, `title`, `created_at`, `upda
 --
 
 CREATE TABLE `settings` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint UNSIGNED NOT NULL,
-  `company` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `city` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `zip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `site_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `site_phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `booking` int NOT NULL DEFAULT '4',
-  `currency_sign` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '$',
-  `area_code` int NOT NULL DEFAULT '15',
-  `currency_format` int NOT NULL DEFAULT '1',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `company` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `zip` varchar(255) DEFAULT NULL,
+  `site_email` varchar(255) DEFAULT NULL,
+  `site_phone` varchar(255) DEFAULT NULL,
+  `booking` int(11) NOT NULL DEFAULT 4,
+  `currency_sign` varchar(255) NOT NULL DEFAULT '$',
+  `area_code` int(11) NOT NULL DEFAULT 15,
+  `currency_format` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -453,8 +456,9 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `user_id`, `company`, `address`, `city`, `zip`, `site_email`, `site_phone`, `booking`, `currency_sign`, `area_code`, `currency_format`, `created_at`, `updated_at`) VALUES
-(3, 2, 'Empresa Exemplo Ltda', 'Rua Exemplo, 123', 'Cidade Exemplo', '12345-678', 'contato@exemplo.com', '(11) 1234-5678', 4, 'R$', 11, 1, '2024-09-14 04:03:55', '2024-09-14 04:03:55'),
-(4, 3, 'Outra Empresa S/A', 'Avenida Teste, 456', 'Outra Cidade', '98765-432', 'info@outraempresa.com', '(21) 8765-4321', 6, '€', 21, 2, '2024-09-14 04:03:55', '2024-09-14 04:03:55');
+(3, 2, 'Empresa Exemplo Ltda', 'Rua Exemplo, 123', 'Cidade Exemplo', '12345-678', 'contato@exemplo.com', '(11) 1234-5678', 4, 'R$', 11, 1, '2024-09-14 07:03:55', '2024-09-14 07:03:55'),
+(4, 3, 'Outra Empresa S/A', 'Avenida Teste, 456', 'Outra Cidade', '98765-432', 'info@outraempresa.com', '(21) 8765-4321', 6, '€', 21, 2, '2024-09-14 07:03:55', '2024-09-14 07:03:55'),
+(5, 5, 'Empresa Exemplo Ltda', 'Rua Exemplo, 123', 'Cidade Exemplo', '12345-678', 'contato@exemplo.com', '(11) 1234-5678', 4, 'R$', 11, 1, '2024-09-14 07:03:55', '2024-09-14 07:03:55');
 
 -- --------------------------------------------------------
 
@@ -463,12 +467,12 @@ INSERT INTO `settings` (`id`, `user_id`, `company`, `address`, `city`, `zip`, `s
 --
 
 CREATE TABLE `sms_marketing` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint NOT NULL,
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `area_code` int NOT NULL,
-  `enabled` tinyint NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `message` text NOT NULL,
+  `area_code` int(11) NOT NULL,
+  `enabled` tinyint(4) NOT NULL,
   `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -487,10 +491,10 @@ INSERT INTO `sms_marketing` (`id`, `user_id`, `title`, `message`, `area_code`, `
 --
 
 CREATE TABLE `sms_marketing_send_status` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint NOT NULL,
-  `campaign` bigint NOT NULL,
-  `customer` bigint NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `campaign` bigint(20) NOT NULL,
+  `customer` bigint(20) NOT NULL,
   `sent` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -509,11 +513,11 @@ INSERT INTO `sms_marketing_send_status` (`id`, `user_id`, `campaign`, `customer`
 --
 
 CREATE TABLE `sms_settings` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint NOT NULL,
-  `balance` bigint NOT NULL,
-  `notify` int NOT NULL,
-  `enabled` tinyint NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `balance` bigint(20) NOT NULL,
+  `notify` int(11) NOT NULL,
+  `enabled` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -532,26 +536,26 @@ INSERT INTO `sms_settings` (`id`, `user_id`, `balance`, `notify`, `enabled`) VAL
 --
 
 CREATE TABLE `users` (
-  `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `surname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `surname` varchar(50) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `profile_image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `occupation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `area_code` int DEFAULT NULL,
-  `phone` int DEFAULT NULL,
-  `about` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `include_profile` tinyint DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `profile_image` varchar(255) DEFAULT NULL,
+  `occupation` varchar(255) DEFAULT NULL,
+  `area_code` int(11) DEFAULT NULL,
+  `phone` int(11) DEFAULT NULL,
+  `about` text DEFAULT NULL,
+  `include_profile` tinyint(4) DEFAULT NULL,
   `valid_to` datetime DEFAULT NULL,
-  `privilege` tinyint DEFAULT '1',
-  `member` bigint DEFAULT NULL,
-  `template` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'default',
+  `privilege` tinyint(4) DEFAULT 1,
+  `member` bigint(20) DEFAULT NULL,
+  `template` varchar(255) DEFAULT 'default',
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -560,10 +564,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `surname`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `url`, `profile_image`, `occupation`, `area_code`, `phone`, `about`, `include_profile`, `valid_to`, `privilege`, `member`, `template`, `deleted_at`) VALUES
-(2, 'Marlon Paulo', '', 'marlon.pauloo@gmail.com', NULL, 'senha123', NULL, '2024-09-14 03:51:51', '2024-09-14 03:51:51', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, 'default', NULL),
-(3, 'Bob Smith', '', 'bob.smith@example.com', NULL, 'password456', NULL, '2024-09-14 03:51:51', '2024-09-14 03:51:51', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, 'default', NULL),
-(4, 'Marlon Paulo 1', '', 'marlon.pauloo1@gmail.com', NULL, 'senha1123', NULL, '2024-09-14 03:51:51', '2024-09-14 03:51:51', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, 'default', NULL),
-(5, 'Marlon Paulo da Silva', '', 'marlon.paulo.silva@outlook.com', NULL, '$2y$10$rU4ZN0bfb2NsaPNnAVP8PuBhbujtEx2N//wVk40g72lzfixeedvJq', NULL, '2024-09-16 03:30:40', '2024-09-16 03:30:40', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, 'default', NULL);
+(2, 'Marlon Paulo', '', 'marlon.pauloo@gmail.com', NULL, 'senha123', NULL, '2024-09-14 06:51:51', '2024-09-14 06:51:51', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, 'default', NULL),
+(3, 'Bob Smith', '', 'bob.smith@example.com', NULL, 'password456', NULL, '2024-09-14 06:51:51', '2024-09-14 06:51:51', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, 'default', NULL),
+(4, 'Marlon Paulo 1', '', 'marlon.pauloo1@gmail.com', NULL, 'senha1123', NULL, '2024-09-14 06:51:51', '2024-09-14 06:51:51', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, 'default', NULL),
+(5, 'Marlon Paulo da Silva', '', 'marlon.paulo.silva@outlook.com', NULL, '$2y$10$rU4ZN0bfb2NsaPNnAVP8PuBhbujtEx2N//wVk40g72lzfixeedvJq', NULL, '2024-09-16 06:30:40', '2024-09-16 06:30:40', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, 'default', NULL);
 
 -- --------------------------------------------------------
 
@@ -572,9 +576,9 @@ INSERT INTO `users` (`id`, `name`, `surname`, `email`, `email_verified_at`, `pas
 --
 
 CREATE TABLE `vacations` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint UNSIGNED NOT NULL,
-  `user_res` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `user_res` bigint(20) UNSIGNED NOT NULL,
   `date_from` date DEFAULT NULL,
   `date_to` date DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -586,7 +590,7 @@ CREATE TABLE `vacations` (
 --
 
 INSERT INTO `vacations` (`id`, `user_id`, `user_res`, `date_from`, `date_to`, `created_at`, `updated_at`) VALUES
-(1, 5, 2, '2024-09-17', '2024-09-30', '2024-09-17 02:03:32', '2024-09-17 02:03:32');
+(1, 5, 2, '2024-09-17', '2024-09-30', '2024-09-17 05:03:32', '2024-09-17 05:03:32');
 
 -- --------------------------------------------------------
 
@@ -595,16 +599,16 @@ INSERT INTO `vacations` (`id`, `user_id`, `user_res`, `date_from`, `date_to`, `c
 --
 
 CREATE TABLE `websites` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint UNSIGNED NOT NULL,
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `domain` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `facebook` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `twitter` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `instagram` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `color` int NOT NULL DEFAULT '4',
-  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `domain` varchar(255) NOT NULL,
+  `logo` varchar(255) DEFAULT NULL,
+  `facebook` varchar(255) DEFAULT NULL,
+  `twitter` varchar(255) DEFAULT NULL,
+  `instagram` varchar(255) DEFAULT NULL,
+  `color` int(11) NOT NULL DEFAULT 4,
+  `address` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -614,7 +618,7 @@ CREATE TABLE `websites` (
 --
 
 INSERT INTO `websites` (`id`, `user_id`, `title`, `domain`, `logo`, `facebook`, `twitter`, `instagram`, `color`, `address`, `created_at`, `updated_at`) VALUES
-(1, 5, NULL, 'barbeariamarlon.site', '/images/profile_images/4f95371739208b3fcfe5ee48655cccc6b5651fa1.png', 'https://facebook.com/meusite', 'https://twitter.com/meusite', 'https://instagram.com/meusite', 5, 'Rua Exemplo, 123, Cidade Exemplo', '2024-09-14 21:53:26', '2024-09-14 21:53:26');
+(1, 5, NULL, 'barbeariamarlon.site', '/images/profile_images/4f95371739208b3fcfe5ee48655cccc6b5651fa1.png', 'https://facebook.com/meusite', 'https://twitter.com/meusite', 'https://instagram.com/meusite', 5, 'Rua Exemplo, 123, Cidade Exemplo', '2024-09-15 00:53:26', '2024-09-15 00:53:26');
 
 -- --------------------------------------------------------
 
@@ -623,15 +627,15 @@ INSERT INTO `websites` (`id`, `user_id`, `title`, `domain`, `logo`, `facebook`, 
 --
 
 CREATE TABLE `work_hours` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint UNSIGNED NOT NULL,
-  `mon_closed` tinyint(1) NOT NULL DEFAULT '0',
-  `tue_closed` tinyint(1) NOT NULL DEFAULT '0',
-  `wed_closed` tinyint(1) NOT NULL DEFAULT '0',
-  `thu_closed` tinyint(1) NOT NULL DEFAULT '0',
-  `fri_closed` tinyint(1) NOT NULL DEFAULT '0',
-  `sat_closed` tinyint(1) NOT NULL DEFAULT '1',
-  `sun_closed` tinyint(1) NOT NULL DEFAULT '1',
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `mon_closed` tinyint(1) NOT NULL DEFAULT 0,
+  `tue_closed` tinyint(1) NOT NULL DEFAULT 0,
+  `wed_closed` tinyint(1) NOT NULL DEFAULT 0,
+  `thu_closed` tinyint(1) NOT NULL DEFAULT 0,
+  `fri_closed` tinyint(1) NOT NULL DEFAULT 0,
+  `sat_closed` tinyint(1) NOT NULL DEFAULT 1,
+  `sun_closed` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -641,8 +645,8 @@ CREATE TABLE `work_hours` (
 --
 
 INSERT INTO `work_hours` (`id`, `user_id`, `mon_closed`, `tue_closed`, `wed_closed`, `thu_closed`, `fri_closed`, `sat_closed`, `sun_closed`, `created_at`, `updated_at`) VALUES
-(1, 5, 0, 0, 0, 0, 0, 1, 1, '2024-09-14 22:13:12', '2024-09-14 22:13:12'),
-(2, 5, 0, 0, 0, 0, 0, 1, 1, '2024-09-14 22:13:12', '2024-09-14 22:13:12');
+(1, 5, 0, 0, 0, 0, 0, 1, 1, '2024-09-15 01:13:12', '2024-09-15 01:13:12'),
+(2, 5, 0, 0, 0, 0, 0, 1, 1, '2024-09-15 01:13:12', '2024-09-15 01:13:12');
 
 -- --------------------------------------------------------
 
@@ -651,9 +655,9 @@ INSERT INTO `work_hours` (`id`, `user_id`, `mon_closed`, `tue_closed`, `wed_clos
 --
 
 CREATE TABLE `work_times` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint UNSIGNED NOT NULL,
-  `user_res` bigint UNSIGNED DEFAULT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `user_res` bigint(20) UNSIGNED DEFAULT NULL,
   `date_from` date NOT NULL,
   `date_to` date NOT NULL,
   `time_from` time NOT NULL,
@@ -669,7 +673,7 @@ CREATE TABLE `work_times` (
 --
 
 INSERT INTO `work_times` (`id`, `user_id`, `user_res`, `date_from`, `date_to`, `time_from`, `time_to`, `lunch_from`, `lunch_to`, `created_at`, `updated_at`) VALUES
-(1, 5, 2, '2024-09-19', '2024-09-19', '09:00:00', '17:00:00', '12:00:00', '13:00:00', '2024-09-17 02:21:45', '2024-09-17 02:21:45');
+(1, 5, 5, '2024-09-19', '2025-01-01', '09:00:00', '17:00:00', '12:00:00', '13:00:00', '2024-09-17 05:21:45', '2024-09-17 05:21:45');
 
 --
 -- Índices para tabelas despejadas
@@ -847,9 +851,7 @@ ALTER TABLE `work_hours`
 -- Índices de tabela `work_times`
 --
 ALTER TABLE `work_times`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `work_times_employee_id_foreign` (`user_res`),
-  ADD KEY `work_times_user_id_employee_id_index` (`user_id`,`user_res`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT para tabelas despejadas
@@ -859,121 +861,121 @@ ALTER TABLE `work_times`
 -- AUTO_INCREMENT de tabela `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `holidays`
 --
 ALTER TABLE `holidays`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de tabela `my_services`
 --
 ALTER TABLE `my_services`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `notifications_status`
 --
 ALTER TABLE `notifications_status`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `phone_area_codes`
 --
 ALTER TABLE `phone_area_codes`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `photos`
 --
 ALTER TABLE `photos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `profiles`
 --
 ALTER TABLE `profiles`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `renewals`
 --
 ALTER TABLE `renewals`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `services_categories`
 --
 ALTER TABLE `services_categories`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `settings`
 --
 ALTER TABLE `settings`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `sms_settings`
 --
 ALTER TABLE `sms_settings`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `vacations`
 --
 ALTER TABLE `vacations`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `work_times`
 --
 ALTER TABLE `work_times`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restrições para tabelas despejadas
