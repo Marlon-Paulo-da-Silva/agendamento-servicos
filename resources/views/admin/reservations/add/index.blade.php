@@ -65,8 +65,47 @@
 
 </div>
 
-    <div class="pages" id="second">
+<div class="pages" id="second">
 
+    <h1>Selecione um colaborador</h1>
+    <h2>Colaborador <span id="service-display"></span>. Esse são os colaboradores.</h2>
+    <div class="d-none d-lg-block d-xl-block d-xxl-block">
+
+        <div class="row">
+            <div class="col-6">
+                <div class="dropdown calendar-nav">
+                    <a class="btn calendar-days" id="dropdownMenuButton1" data-bs-toggle="dropdown" style="height: 50px;" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                            <div style="width:2.5rem; border-radius:100%; background-position:center center; height:2.5rem; background-size:cover; background-image:url( /images/profile_images/98438ba6b29ea0d4b943adeef7c07e41c1bb0cf3.png);">
+                            </div>
+                            <div class="dropdown-toggle" style="margin:0 10px">Marlon Colaborador Paulo da Silva</div>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                            <li>
+                                <a class="dropdown-item" href="/admin/reservations/?day=&amp;user=1">
+                                    <div class="d-flex align-items-center">
+                                        <div style="width:2.5rem; border-radius:100%; background-position:center center; height:2.5rem; background-size:cover; background-image:url( /images/profile_images/98438ba6b29ea0d4b943adeef7c07e41c1bb0cf3.png);">
+                                        </div>
+                                        <div style="margin:0 10px">Marlon Colaborador Paulo da Silva</div>
+                                    </div>
+                                </a>
+                            </li>
+                                                            <li>
+                                <a class="dropdown-item" href="/admin/reservations/?day=&amp;user=2">
+                                    <div class="d-flex align-items-center">
+                                        <div style="width:2.5rem; border-radius:100%; background-position:center center; height:2.5rem; background-size:cover; background-image:url( /images/profile_images/98438ba6b29ea0d4b943adeef7c07e41c1bb0cf3.png);">
+                                        </div>
+                                        <div style="margin:0 10px">Marlon Colaborador Paulo da Silva</div>
+                                    </div>
+                                </a>
+                            </li>
+                                                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </div>
     <h1>Selecione um período</h1>
     <h2>Serviço <span id="service-display"></span>. Os períodos disponíveis são mostrados abaixo.</h2>
       <div class="swiper mb-4 mySwiper">
@@ -186,7 +225,7 @@
     @include('admin.layout.footer')
 </div>
 <script>
-    var time_format = {{$info->time_format}};
+    var time_format = 1;
 </script>
 <script src="/js/admin/swiper8.min.js"></script>
 <script src="/js/admin/reservations_add.js"></script>

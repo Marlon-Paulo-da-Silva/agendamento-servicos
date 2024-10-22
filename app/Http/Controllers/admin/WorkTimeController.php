@@ -56,7 +56,7 @@ class WorkTimeController extends Controller
             }
         }
 
-        return view('admin.schedule.work_time.index', ['user_id' => $member, 'work_times' => $work_times]);
+        return view('admin.schedule.work_time.index', ['member' => $member, 'work_times' => $work_times]);
     }
 
     public function generate($id)
@@ -75,7 +75,7 @@ class WorkTimeController extends Controller
 
 
 
-        return view('admin.schedule.work_time.generate', ['user_id' => $member]);
+        return view('admin.schedule.work_time.generate', ['member' => $member]);
     }
 
     /**
@@ -116,17 +116,18 @@ class WorkTimeController extends Controller
 
         if($member->privilege == 1){
             $user = $member->id;
-        }
-
-        if($member->privilege == 2){
+        } else if($member->privilege == 2){
+            $user = $member->member;
+            $employee_id = $member->id;
+        } else {
             $user = $member->member;
             $employee_id = $member->id;
         }
 
-        // echo "<pre>";
-        // print_r($member);
-        // echo "</pre>";
-        // exit();
+        echo "<pre>";
+        dd($member);
+        echo "</pre>";
+        exit();
 
 
 
@@ -162,7 +163,7 @@ class WorkTimeController extends Controller
         {
             $work_time = new WorkTime();
             $work_time->user_id = $user;
-            $work_time->employee_id = $employee_id;
+            $work_time->user_res = $employee_id;
             $work_time->date_from = $startTime;
             $work_time->date_to = $endTime;
             $work_time->time_from = $request->input('time_from');

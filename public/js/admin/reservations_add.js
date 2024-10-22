@@ -391,12 +391,15 @@ $(document).ready(function () {
           );
 
           var body = '';
-
           $.each(data.slots, function (key, value) {
 
             var employees = '';
 
             $.each(value, function (employees_keys, employees_ids) {
+
+              console.log(data.employees[5])
+              console.log(employees_keys)
+              console.log(employees_ids)
 
               var user_image = '';
               if (employees_keys == 0)

@@ -390,7 +390,7 @@ class ReservationsController extends Controller
             ->leftJoin('users', 'my_services.user_id', '=', 'user_id')
             ->where('my_services.service_id', '=', $service)->get();
         
-        
+
 
 
         if(!$get_employees_of_service)
@@ -403,7 +403,7 @@ class ReservationsController extends Controller
             $employees_of_service[] = $employee->user_res;
         }
 
-        
+
 
         // Check if employees work on selected date and store them in array
         $working = WorkTime::select('work_times.user_res')
@@ -413,6 +413,7 @@ class ReservationsController extends Controller
             ->whereDate('work_times.date_from', '<=', $date)
             ->whereDate('work_times.date_to', '>=', $date)
             ->get();
+
 
         
 
@@ -433,6 +434,7 @@ class ReservationsController extends Controller
             ->get();
 
 
+
         foreach($vacations as $vacation)
         {
             if (($key = array_search($vacation->user, $employees)) !== false) {
@@ -449,18 +451,20 @@ class ReservationsController extends Controller
         $employees_info = array();
         $terms = array();
 
+
+
         foreach($employees as $employee)
         {
 
             // Get profile data for each employee
-            $employees_sql = Profile::where('id', '=', $employee)->first();
+            $employees_sql = Profile::where('user_id', '=', $employee)->first();
 
             if($employees_sql)
             {
                 if(!$employees_sql->name)
                     $employees_sql->name = 'Employee';
 
-                $employees_info[$employees_sql->id] = array(
+                $employees_info[$employees_sql->user_id] = array(
                     'name' => $employees_sql->name . ' ' . $employees_sql->surname,
                     'avatar' => $employees_sql->profile_image,
                     'occupation' => $employees_sql->occupation
@@ -561,6 +565,8 @@ class ReservationsController extends Controller
             'service' => 'required|integer|exists:services,id'
         ]);
 
+        
+
 
         if ($validator->fails()) {
             return response()->json($validator->messages());
@@ -569,11 +575,11 @@ class ReservationsController extends Controller
         // Check if user has the right to the service
         if(!$this->CheckUserHasServiceRights(Auth::id(), $request->service))
             return response()->json($validator->messages());
-
-
+            
         // Get employees data that work on current day and are managing the service. Returns array of employees data and employees work times
         $employees_data = $this->GetEmployeesData($request->date, $request->service);
 
+    
         if(!$employees_data)
             $employees_data = array(
                 'employees' => array(),
@@ -928,31 +934,31 @@ class ReservationsController extends Controller
     private function GetDayName($day) {
 
         switch($day) {
-            case 1 : return 'Monday'; break;
-            case 2 : return 'Tuesday'; break;
-            case 3 : return 'Wednesday'; break;
-            case 4 : return 'Thursday'; break;
-            case 5 : return 'Friday'; break;
-            case 6 : return 'Saturday'; break;
-            case 7 : return 'Sunday'; break;
+            case 1 : return 'Segunda'; break;
+            case 2 : return 'Terça'; break;
+            case 3 : return 'Quarta'; break;
+            case 4 : return 'Quinta'; break;
+            case 5 : return 'Sexta'; break;
+            case 6 : return 'Sábado'; break;
+            case 7 : return 'Domingo'; break;
             default : return '';
         }
     }
     private function GetMonthName($month) {
 
         switch($month) {
-            case 1 : return 'January'; break;
-            case 2 : return 'February'; break;
-            case 3 : return 'March'; break;
-            case 4 : return 'April'; break;
-            case 5 : return 'May'; break;
-            case 6 : return 'June'; break;
-            case 7 : return 'July'; break;
-            case 8 : return 'August'; break;
-            case 9 : return 'September'; break;
-            case 10 : return 'October'; break;
-            case 11 : return 'November'; break;
-            case 12 : return 'December'; break;
+            case 1 : return 'Janeiro'; break;
+            case 2 : return 'Fevereiro'; break;
+            case 3 : return 'Março'; break;
+            case 4 : return 'Abril'; break;
+            case 5 : return 'Maio'; break;
+            case 6 : return 'Junho'; break;
+            case 7 : return 'Julho'; break;
+            case 8 : return 'Agosto'; break;
+            case 9 : return 'Setembro'; break;
+            case 10 : return 'Outubro'; break;
+            case 11 : return 'Novembro'; break;
+            case 12 : return 'Dezembro'; break;
             default : return '';
         }
     }
@@ -1137,6 +1143,7 @@ class ReservationsController extends Controller
     }
     public function storeAjax(Request $request)
     {
+        
         $validator = Validator::make($request->all(), [
             'reservation_slot' => 'required|date_format:Y-m-d H:i:s|after_or_equal:today',
             'reservation_service' => 'required|integer|exists:services,id',
@@ -1144,9 +1151,13 @@ class ReservationsController extends Controller
             'reservation_customer' => 'required|integer|exists:customers,id'
         ]);
 
+        
+
         if ($validator->fails()) {
                 return response()->json($validator->messages(), 422);
         }
+
+        
 
         if($this->SlotFree($request->input('reservation_slot'), $request->input('reservation_service'), $request->input('reservation_user')))
         return response()->json(['reservation_slot' => ['O período escolhido não está mais disponível. Entretanto, ele poderia ser aceito.']], 422);
@@ -1162,6 +1173,7 @@ class ReservationsController extends Controller
         $reservation_end = $this->CalculateSlotEndTime($request->input('reservation_slot'), $request->input('reservation_service'));
         $service_title = $this->GetServiceTitle($request->input('reservation_service'));
 
+        
         $reservation = new Reservations();
         $reservation->user_id = $this->GetUser();
         $reservation->user_res = $request->input('reservation_user');
@@ -1170,9 +1182,11 @@ class ReservationsController extends Controller
         $reservation->service = $service_title;
         $reservation->start = $request->input('reservation_slot');
         $reservation->end = $reservation_end;
+
+        // dd($service_title);
         $reservation->save();
 
-        $profile = Profile::where('id', '=', $request->input('reservation_user'))->first();
+        $profile = Profile::where('user_id', '=', $request->input('reservation_user'))->first();
         $start = new \DateTime($request->input('reservation_slot'));
         $end = new \DateTime($reservation_end);
         $end->modify("+1 second");
